@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geo Interactive - Under 16 NDA & Onboarding Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #222;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #333;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    input[type="checkbox"] {
+      width: auto;
+      margin-right: 10px;
+    }
+    .note {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Geo Interactive - Under 16 NDA & Onboarding Form</h1>
+    <form action="https://formspree.io/f/manoepny" method="POST">
+
+      <!-- Consent and Guardian Info -->
+      <label for="dob">Your Date of Birth</label>
+      <input type="date" id="dob" name="Date of Birth" required>
+
+      <label for="guardian_name">Parent/Guardian Full Name</label>
+      <input type="text" id="guardian_name" name="Parent/Guardian Name" required>
+
+      <label for="guardian_email">Parent/Guardian Email</label>
+      <input type="email" id="guardian_email" name="Parent/Guardian Email" required>
+
+      <label for="guardian_consent">
+        <input type="checkbox" id="guardian_consent" name="Guardian Consent" required>
+        I confirm that my parent/guardian has read and agreed to my participation in Geo Interactive's projects.
+      </label>
+
+      <!-- Personal Info -->
+      <label for="name">Your Full Name</label>
+      <input type="text" id="name" name="Your Full Name" required>
+
+      <label for="email">Your Email</label>
+      <input type="email" id="email" name="Your Email" required>
+
+      <!-- Work Agreement -->
+      <label for="role">Desired Role/Area of Interest</label>
+      <input type="text" id="role" name="Role" required>
+
+      <label for="start_date">Start Date (or expected)</label>
+      <input type="date" id="start_date" name="Start Date" required>
+
+      <!-- Communication -->
+      <label for="comm">Preferred Communication Platform</label>
+      <select id="comm" name="Preferred Communication" required>
+        <option value="Slack">Slack</option>
+        <option value="Email">Email</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label for="slack_access">Do you currently have Slack access?</label>
+      <select id="slack_access" name="Slack Access" required>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+
+      <!-- NDA Agreement -->
+      <label for="nda">
+        <input type="checkbox" id="nda" name="NDA Agreement" required>
+        I agree not to share any confidential, private, or unreleased information outside the company.
+      </label>
+
+      <label for="work_terms">
+        <input type="checkbox" id="work_terms" name="Work Agreement" required>
+        I understand that Geo Interactive is a new business and currently cannot offer paid positions.
+      </label>
+
+      <label for="tax_acknowledge">
+        <input type="checkbox" id="tax_acknowledge" name="Tax Responsibility" required>
+        I acknowledge that I (or my guardian) am responsible for any personal tax or legal obligations.
+      </label>
+
+      <!-- Submission -->
+      <button type="submit">Submit Form</button>
+    </form>
+  </div>
+</body>
+</html>
