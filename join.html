@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geo Interactive - Application Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Apply to Join Geo Interactive</h1>
+        <form action="https://formspree.io/f/manoepny" method="POST">
+            
+            <!-- Personal Information -->
+            <fieldset>
+                <legend>Personal Information</legend>
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" min="16" required>
+            </fieldset>
+
+            <!-- Department Dropdown -->
+            <fieldset>
+                <legend>Department</legend>
+                <label for="department">Select Your Desired Department:</label>
+                <select id="department" name="department" required>
+                    <option value="">--Select--</option>
+                    <option value="Game Development">Game Development</option>
+                    <option value="Art & Design">Art & Design</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Community Management">Community Management</option>
+                    <option value="Project Management">Project Management</option>
+                    <option value="Quality Assurance">Quality Assurance</option>
+                    <option value="Other">Other</option>
+                </select>
+            </fieldset>
+
+            <!-- Skills -->
+            <fieldset>
+                <legend>Your Skills & Experience</legend>
+                <label for="skills">Skills (separate with commas):</label>
+                <input type="text" id="skills" name="skills" required>
+
+                <label for="experience">Previous Experience (if any):</label>
+                <textarea id="experience" name="experience" rows="4" required></textarea>
+            </fieldset>
+
+            <!-- Portfolio and Social Media Links -->
+            <fieldset>
+                <legend>Portfolio & Social Media</legend>
+                <label for="portfolio">Portfolio/Website Link:</label>
+                <input type="url" id="portfolio" name="portfolio">
+
+                <label for="linkedin">LinkedIn Profile (if applicable):</label>
+                <input type="url" id="linkedin" name="linkedin">
+
+                <label for="twitter">Twitter Handle (if applicable):</label>
+                <input type="text" id="twitter" name="twitter">
+            </fieldset>
+
+            <!-- References -->
+            <fieldset>
+                <legend>References</legend>
+                <label for="reference_name">Reference Name:</label>
+                <input type="text" id="reference_name" name="reference_name">
+
+                <label for="reference_contact">Reference Contact Info (Email/Phone):</label>
+                <input type="text" id="reference_contact" name="reference_contact">
+            </fieldset>
+
+            <!-- Why Join Geo Interactive -->
+            <fieldset>
+                <legend>Why Do You Want to Join Geo Interactive?</legend>
+                <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us why you'd be a good fit for the team." required></textarea>
+            </fieldset>
+
+            <!-- Availability & Contact -->
+            <fieldset>
+                <legend>Availability & Contact</legend>
+                <label for="availability">How soon can you start?</label>
+                <input type="text" id="availability" name="availability" required>
+
+                <label for="timezone">Your Time Zone:</label>
+                <input type="text" id="timezone" name="timezone" required>
+
+                <label for="hours">Preferred Working Hours:</label>
+                <input type="text" id="hours" name="hours" placeholder="e.g., 9 AM - 5 PM">
+            </fieldset>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Submit Application</button>
+        </form>
+    </div>
+
+</body>
+</html>
