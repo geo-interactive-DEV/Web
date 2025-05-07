@@ -4,7 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geo Interactive - Application Form</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        fieldset {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            background-color: #fafafa;
+        }
+
+        legend {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            padding: 0 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button.submit-btn {
+            background-color: #5c6bc0;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        button.submit-btn:hover {
+            background-color: #3f51b5;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+    </style>
 </head>
 <body>
 
@@ -15,82 +94,104 @@
             <!-- Personal Information -->
             <fieldset>
                 <legend>Personal Information</legend>
-                <label for="name">Full Name:</label>
-                <input type="text" id="name" name="name" required>
-
-                <label for="email">Email Address:</label>
-                <input type="email" id="email" name="email" required>
-
-                <label for="age">Age:</label>
-                <input type="number" id="age" name="age" min="16" required>
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" min="16" required>
+                </div>
             </fieldset>
 
             <!-- Department Dropdown -->
             <fieldset>
                 <legend>Department</legend>
-                <label for="department">Select Your Desired Department:</label>
-                <select id="department" name="department" required>
-                    <option value="">--Select--</option>
-                    <option value="Game Development">Game Development</option>
-                    <option value="Art & Design">Art & Design</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="Community Management">Community Management</option>
-                    <option value="Project Management">Project Management</option>
-                    <option value="Quality Assurance">Quality Assurance</option>
-                    <option value="Other">Other</option>
-                </select>
+                <div class="form-group">
+                    <label for="department">Select Your Desired Department:</label>
+                    <select id="department" name="department" required>
+                        <option value="">--Select--</option>
+                        <option value="Game Development">Game Development</option>
+                        <option value="Art & Design">Art & Design</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Community Management">Community Management</option>
+                        <option value="Project Management">Project Management</option>
+                        <option value="Quality Assurance">Quality Assurance</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
             </fieldset>
 
-            <!-- Skills -->
+            <!-- Skills & Experience -->
             <fieldset>
                 <legend>Your Skills & Experience</legend>
-                <label for="skills">Skills (separate with commas):</label>
-                <input type="text" id="skills" name="skills" required>
-
-                <label for="experience">Previous Experience (if any):</label>
-                <textarea id="experience" name="experience" rows="4" required></textarea>
+                <div class="form-group">
+                    <label for="skills">Skills (separate with commas):</label>
+                    <input type="text" id="skills" name="skills" required>
+                </div>
+                <div class="form-group">
+                    <label for="experience">Previous Experience (if any):</label>
+                    <textarea id="experience" name="experience" rows="4" required></textarea>
+                </div>
             </fieldset>
 
-            <!-- Portfolio and Social Media Links -->
+            <!-- Portfolio & Social Media Links -->
             <fieldset>
                 <legend>Portfolio & Social Media</legend>
-                <label for="portfolio">Portfolio/Website Link:</label>
-                <input type="url" id="portfolio" name="portfolio">
-
-                <label for="linkedin">LinkedIn Profile (if applicable):</label>
-                <input type="url" id="linkedin" name="linkedin">
-
-                <label for="twitter">Twitter Handle (if applicable):</label>
-                <input type="text" id="twitter" name="twitter">
+                <div class="form-group">
+                    <label for="portfolio">Portfolio/Website Link:</label>
+                    <input type="url" id="portfolio" name="portfolio">
+                </div>
+                <div class="form-group">
+                    <label for="linkedin">LinkedIn Profile (if applicable):</label>
+                    <input type="url" id="linkedin" name="linkedin">
+                </div>
+                <div class="form-group">
+                    <label for="twitter">Twitter Handle (if applicable):</label>
+                    <input type="text" id="twitter" name="twitter">
+                </div>
             </fieldset>
 
             <!-- References -->
             <fieldset>
                 <legend>References</legend>
-                <label for="reference_name">Reference Name:</label>
-                <input type="text" id="reference_name" name="reference_name">
-
-                <label for="reference_contact">Reference Contact Info (Email/Phone):</label>
-                <input type="text" id="reference_contact" name="reference_contact">
+                <div class="form-group">
+                    <label for="reference_name">Reference Name:</label>
+                    <input type="text" id="reference_name" name="reference_name">
+                </div>
+                <div class="form-group">
+                    <label for="reference_contact">Reference Contact Info (Email/Phone):</label>
+                    <input type="text" id="reference_contact" name="reference_contact">
+                </div>
             </fieldset>
 
             <!-- Why Join Geo Interactive -->
             <fieldset>
                 <legend>Why Do You Want to Join Geo Interactive?</legend>
-                <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us why you'd be a good fit for the team." required></textarea>
+                <div class="form-group">
+                    <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us why you'd be a good fit for the team." required></textarea>
+                </div>
             </fieldset>
 
             <!-- Availability & Contact -->
             <fieldset>
                 <legend>Availability & Contact</legend>
-                <label for="availability">How soon can you start?</label>
-                <input type="text" id="availability" name="availability" required>
-
-                <label for="timezone">Your Time Zone:</label>
-                <input type="text" id="timezone" name="timezone" required>
-
-                <label for="hours">Preferred Working Hours:</label>
-                <input type="text" id="hours" name="hours" placeholder="e.g., 9 AM - 5 PM">
+                <div class="form-group">
+                    <label for="availability">How soon can you start?</label>
+                    <input type="text" id="availability" name="availability" required>
+                </div>
+                <div class="form-group">
+                    <label for="timezone">Your Time Zone:</label>
+                    <input type="text" id="timezone" name="timezone" required>
+                </div>
+                <div class="form-group">
+                    <label for="hours">Preferred Working Hours:</label>
+                    <input type="text" id="hours" name="hours" placeholder="e.g., 9 AM - 5 PM">
+                </div>
             </fieldset>
 
             <!-- Submit Button -->
