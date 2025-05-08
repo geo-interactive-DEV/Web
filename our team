@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Geo Interactive - Team</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #20232a;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    section {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.3rem;
+      color: #444;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin: 0.4rem 0;
+    }
+
+    .filled {
+      font-weight: bold;
+      color: #28a745;
+    }
+
+    .vacant {
+      color: #888;
+      font-style: italic;
+    }
+
+    .department {
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Meet the Geo Interactive Team</h1>
+  <p>Our talented crew powering creativity and innovation.</p>
+</header>
+
+<main>
+  <section>
+    <h2>Leadership</h2>
+    <ul>
+      <li class="filled">Founder & CEO – Geo</li>
+      <li class="vacant">Chief Operating Officer (Vacant)</li>
+      <li class="vacant">Chief Creative Officer (Vacant)</li>
+      <li class="vacant">Chief Technology Officer (Vacant)</li>
+      <li class="vacant">Chief Marketing Officer (Vacant)</li>
+    </ul>
+
+    <div class="department">
+      <h2>Creative Department</h2>
+      <ul>
+        <li class="vacant">Head of Creativity Department (Vacant)</li>
+        <li class="vacant">Game Designer (Vacant)</li>
+        <li class="vacant">Narrative Designer / Writer (Vacant)</li>
+        <li class="vacant">UI/UX Designer (Vacant)</li>
+        <li class="vacant">Sound Designer / Composer (Vacant)</li>
+        <li class="vacant">Animator (2D/3D) (Vacant)</li>
+      </ul>
+    </div>
+
+    <div class="department">
+      <h2>Development Department</h2>
+      <ul>
+        <li class="vacant">Lead Developer (Vacant)</li>
+        <li class="vacant">Game Programmer (Vacant)</li>
+        <li class="vacant">AI / Tool Developer (Vacant)</li>
+        <li class="vacant">Back-End Developer (Vacant)</li>
+        <li class="vacant">Front-End Developer (Vacant)</li>
+        <li class="vacant">QA Tester / Bug Tracker (Vacant)</li>
+        <li class="vacant">Build Manager (Vacant)</li>
+      </ul>
+    </div>
+
+    <div class="department">
+      <h2>Art Department</h2>
+      <ul>
+        <li class="vacant">Art Director (Vacant)</li>
+        <li class="vacant">2D Artist / Pixel Artist (Vacant)</li>
+        <li class="vacant">3D Modeler (Vacant)</li>
+        <li class="vacant">Texture Artist (Vacant)</li>
+        <li class="vacant">VFX Artist (Vacant)</li>
+        <li class="vacant">Rigging Specialist (Vacant)</li>
+      </ul>
+    </div>
+
+    <div class="department">
+      <h2>Marketing & Community</h2>
+      <ul>
+        <li class="vacant">Community Manager (Vacant)</li>
+        <li class="vacant">Social Media Manager (Vacant)</li>
+        <li class="vacant">Marketing Strategist (Vacant)</li>
+        <li class="vacant">Public Relations Lead (Vacant)</li>
+        <li class="vacant">Content Creator / Video Editor (Vacant)</li>
+      </ul>
+    </div>
+
+    <div class="department">
+      <h2>Business & Admin</h2>
+      <ul>
+        <li class="vacant">HR Manager (Vacant)</li>
+        <li class="vacant">Recruiter (Vacant)</li>
+        <li class="vacant">Office Manager (Vacant)</li>
+        <li class="vacant">Finance Manager (Vacant)</li>
+        <li class="vacant">Legal Advisor (Vacant)</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>
