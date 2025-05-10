@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Clicker Game with Prestige</title>
+  <title>Clicker Game with Prestige, Achievements, and Offline Progress</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -77,34 +77,51 @@
       padding: 10px 20px;
       border-radius: 8px;
     }
+    .floating-text {
+      position: absolute;
+      color: green;
+      font-size: 20px;
+      pointer-events: none;
+      animation: floatUp 1s ease-out forwards;
+    }
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-50px); }
+    }
+    .night-mode {
+      background-color: #333;
+      color: white;
+    }
+    .night-mode button {
+      background-color: #555;
+    }
   </style>
 </head>
 <body>
-
   <h1>Clicker Game</h1>
   <div class="score">Score: <span id="score">0</span></div>
   <div class="score">Click Power: <span id="clickPower">1</span></div>
   <div class="score">Prestige Points: <span id="prestigePoints">0</span></div>
   <div class="score">Multiplier: <span id="multiplier">1</span>x</div>
-
   <button id="click-button">Click Me!</button>
-
   <div class="tabs">
     <button class="tab-button" onclick="showTab('click-tab')">Click Upgrades</button>
     <button class="tab-button" onclick="showTab('auto-tab')">Auto Clickers</button>
+    <button class="tab-button" onclick="showTab('prestige-tab')">Prestige Upgrades</button>
     <button class="tab-button" onclick="showTab('achievements-tab')">Achievements</button>
   </div>
-
-  <!-- Click Upgrade Tab -->
   <div id="click-tab" class="tab-content active">
     <div class="upgrade">
       <h3>Upgrade Click Power</h3>
       <p>Cost: <span id="clickPowerCost">20</span></p>
       <button id="buyClickPower">Buy</button>
     </div>
+    <div class="upgrade">
+      <h3>Double Click Power</h3>
+      <p>Cost: <span id="doubleClickCost">100</span></p>
+      <button id="buyDoubleClick">Buy</button>
+    </div>
   </div>
-
-  <!-- Auto Clicker Tab -->
   <div id="auto-tab" class="tab-content">
     <div class="upgrade">
       <h3>Buy Auto Clicker</h3>
@@ -113,145 +130,169 @@
       <button id="buyAutoClicker">Buy</button>
     </div>
   </div>
-
-  <!-- Achievements Tab -->
-  <div id="achievements-tab" class="tab-content">
-    <div class="achievement" id="achieve-100">
-      <strong>🎉 100 Clicks!</strong>
-      <p>Reach 100 score</p>
-      <p>Status: <span id="achieve-status-100">Locked</span></p>
-    </div>
-    <div class="achievement" id="achieve-10-auto">
-      <strong>🤖 Auto Army</strong>
-      <p>Own 10 auto clickers</p>
-      <p>Status: <span id="achieve-status-auto">Locked</span></p>
+  <div id="prestige-tab" class="tab-content">
+    <div class="upgrade">
+      <h3>Extra Prestige Power</h3>
+      <p>Cost: <span id="prestigeUpgradeCost">100</span></p>
+      <button id="buyPrestigeUpgrade">Buy</button>
     </div>
   </div>
-
-  <button id="prestige-button" disabled>Prestige (Requires 1000 score)</button><br>
+  <div id="achievements-tab" class="tab-content">
+    <div class="achievement">
+      <h3>Achievements</h3>
+      <p>Clicks: <span id="achievementClicks">0</span></p>
+      <p>Milestone: <span id="milestone">0</span></p>
+    </div>
+  </div>
+  <button id="prestige-button">Prestige</button>
   <button id="reset-button">Reset Game</button>
+  <button id="theme-button">Toggle Night Mode</button>
 
   <script>
-    let score = parseInt(localStorage.getItem("score")) || 0;
-    let clickPower = parseInt(localStorage.getItem("clickPower")) || 1;
-    let clickPowerCost = parseInt(localStorage.getItem("clickPowerCost")) || 20;
+    let score = 0;
+    let clickPower = 1;
+    let prestigePoints = 0;
+    let multiplier = 1;
+    let autoClickers = 0;
+    let doubleClick = false;
+    let achievementClicks = 0;
+    let milestone = 0;
 
-    let autoClickers = parseInt(localStorage.getItem("autoClickers")) || 0;
-    let autoClickerCost = parseInt(localStorage.getItem("autoClickerCost")) || 50;
+    const clickButton = document.getElementById('click-button');
+    const scoreDisplay = document.getElementById('score');
+    const clickPowerDisplay = document.getElementById('clickPower');
+    const prestigePointsDisplay = document.getElementById('prestigePoints');
+    const multiplierDisplay = document.getElementById('multiplier');
+    const clickPowerCostDisplay = document.getElementById('clickPowerCost');
+    const autoClickerCostDisplay = document.getElementById('autoClickerCost');
+    const autoClickersDisplay = document.getElementById('autoClickers');
+    const prestigeUpgradeCostDisplay = document.getElementById('prestigeUpgradeCost');
+    const doubleClickCostDisplay = document.getElementById('doubleClickCost');
+    const achievementClicksDisplay = document.getElementById('achievementClicks');
+    const milestoneDisplay = document.getElementById('milestone');
+    const themeButton = document.getElementById('theme-button');
 
-    let prestigePoints = parseInt(localStorage.getItem("prestigePoints")) || 0;
-    let multiplier = Math.pow(2, prestigePoints);
-
-    let achievements = JSON.parse(localStorage.getItem("achievements")) || {
-      click100: false,
-      auto10: false
-    };
-
-    const scoreEl = document.getElementById('score');
-    const clickPowerEl = document.getElementById('clickPower');
-    const clickPowerCostEl = document.getElementById('clickPowerCost');
-    const autoClickersEl = document.getElementById('autoClickers');
-    const autoClickerCostEl = document.getElementById('autoClickerCost');
-    const prestigeEl = document.getElementById('prestigePoints');
-    const multiplierEl = document.getElementById('multiplier');
-    const prestigeBtn = document.getElementById('prestige-button');
-
-    function updateDisplay() {
-      scoreEl.textContent = score;
-      clickPowerEl.textContent = clickPower;
-      clickPowerCostEl.textContent = clickPowerCost;
-      autoClickersEl.textContent = autoClickers;
-      autoClickerCostEl.textContent = autoClickerCost;
-      prestigeEl.textContent = prestigePoints;
-      multiplierEl.textContent = multiplier;
-
-      prestigeBtn.disabled = score < 1000;
-      updateAchievements();
-    }
-
-    function saveGame() {
-      localStorage.setItem("score", score);
-      localStorage.setItem("clickPower", clickPower);
-      localStorage.setItem("clickPowerCost", clickPowerCost);
-      localStorage.setItem("autoClickers", autoClickers);
-      localStorage.setItem("autoClickerCost", autoClickerCost);
-      localStorage.setItem("prestigePoints", prestigePoints);
-      localStorage.setItem("achievements", JSON.stringify(achievements));
-    }
-
-    function updateAchievements() {
-      document.getElementById("achieve-status-100").textContent =
-        (achievements.click100 = score >= 100 || achievements.click100) ? "Unlocked!" : "Locked";
-      document.getElementById("achieve-status-auto").textContent =
-        (achievements.auto10 = autoClickers >= 10 || achievements.auto10) ? "Unlocked!" : "Locked";
-    }
-
-    function showTab(id) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
-
-    document.getElementById('click-button').addEventListener('click', () => {
+    clickButton.addEventListener('click', () => {
       score += clickPower * multiplier;
-      updateDisplay();
-      saveGame();
+      achievementClicks++;
+      milestoneCheck();
+      updateScoreDisplay();
+      showFloatingText('+ ' + (clickPower * multiplier));
     });
 
+    // Upgrade click power
     document.getElementById('buyClickPower').addEventListener('click', () => {
-      if (score >= clickPowerCost) {
-        score -= clickPowerCost;
-        clickPower += 1;
-        clickPowerCost = Math.floor(clickPowerCost * 1.5);
-        updateDisplay();
-        saveGame();
+      const cost = parseInt(clickPowerCostDisplay.innerText);
+      if (score >= cost) {
+        score -= cost;
+        clickPower++;
+        updateScoreDisplay();
+        clickPowerCostDisplay.innerText = Math.floor(cost * 1.5);
       }
     });
 
+    // Double click power upgrade
+    document.getElementById('buyDoubleClick').addEventListener('click', () => {
+      const cost = parseInt(doubleClickCostDisplay.innerText);
+      if (score >= cost) {
+        score -= cost;
+        doubleClick = true;
+        updateScoreDisplay();
+        doubleClickCostDisplay.innerText = Math.floor(cost * 1.5);
+      }
+    });
+
+    // Buy Auto Clicker
     document.getElementById('buyAutoClicker').addEventListener('click', () => {
-      if (score >= autoClickerCost) {
-        score -= autoClickerCost;
-        autoClickers += 1;
-        autoClickerCost = Math.floor(autoClickerCost * 1.5);
-        updateDisplay();
-        saveGame();
+      const cost = parseInt(autoClickerCostDisplay.innerText);
+      if (score >= cost) {
+        score -= cost;
+        autoClickers++;
+        updateScoreDisplay();
+        autoClickersDisplay.innerText = autoClickers;
+        autoClickerCostDisplay.innerText = Math.floor(cost * 1.5);
       }
     });
 
+    // Prestige upgrade
+    document.getElementById('buyPrestigeUpgrade').addEventListener('click', () => {
+      const cost = parseInt(prestigeUpgradeCostDisplay.innerText);
+      if (prestigePoints >= cost) {
+        prestigePoints -= cost;
+        multiplier++;
+        updateScoreDisplay();
+        prestigeUpgradeCostDisplay.innerText = Math.floor(cost * 1.5);
+      }
+    });
+
+    // Prestige button
     document.getElementById('prestige-button').addEventListener('click', () => {
-      if (score >= 1000) {
-        if (confirm("Prestige? This will reset your progress for permanent bonuses.")) {
-          prestigePoints += 1;
-          multiplier = Math.pow(2, prestigePoints);
-
-          // Reset game variables except prestige
-          score = 0;
-          clickPower = 1;
-          clickPowerCost = 20;
-          autoClickers = 0;
-          autoClickerCost = 50;
-          achievements = { click100: false, auto10: false };
-
-          updateDisplay();
-          saveGame();
-        }
-      }
+      prestigePoints++;
+      clickPower = 1;
+      multiplier = 1;
+      autoClickers = 0;
+      updateScoreDisplay();
+      prestigePointsDisplay.innerText = prestigePoints;
     });
 
-    setInterval(() => {
-      score += autoClickers * multiplier;
-      updateDisplay();
-      saveGame();
-    }, 1000);
-
+    // Reset button
     document.getElementById('reset-button').addEventListener('click', () => {
-      if (confirm("Are you sure you want to reset the game? This will also remove your prestige.")) {
-        localStorage.clear();
-        location.reload();
-      }
+      score = 0;
+      clickPower = 1;
+      prestigePoints = 0;
+      multiplier = 1;
+      autoClickers = 0;
+      achievementClicks = 0;
+      milestone = 0;
+      updateScoreDisplay();
     });
 
-    updateDisplay();
-  </script>
+    // Night mode toggle
+    themeButton.addEventListener('click', () => {
+      document.body.classList.toggle('night-mode');
+    });
 
+    // Floating text effect
+    function showFloatingText(text) {
+      const floatingText = document.createElement('div');
+      floatingText.classList.add('floating-text');
+      floatingText.innerText = text;
+      document.body.appendChild(floatingText);
+      setTimeout(() => {
+        floatingText.remove();
+      }, 1000);
+    }
+
+    // Update score display
+    function updateScoreDisplay() {
+      scoreDisplay.innerText = score;
+      clickPowerDisplay.innerText = clickPower;
+      prestigePointsDisplay.innerText = prestigePoints;
+      multiplierDisplay.innerText = multiplier;
+    }
+
+    // Show specific tab content
+    function showTab(tab) {
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tabContent => tabContent.classList.remove('active'));
+      document.getElementById(tab).classList.add('active');
+    }
+
+    // Achievement milestone tracking
+    function milestoneCheck() {
+      if (achievementClicks >= milestone * 1000) {
+        milestone++;
+        milestoneDisplay.innerText = milestone;
+      }
+    }
+
+    // Simulate auto clickers
+    setInterval(() => {
+      if (autoClickers > 0) {
+        score += autoClickers * clickPower;
+        updateScoreDisplay();
+      }
+    }, 1000);
+  </script>
 </body>
 </html>
