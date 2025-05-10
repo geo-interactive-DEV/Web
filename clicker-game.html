@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Clicker Game</title>
+  <title>Clicker Game with Prestige</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -12,37 +12,62 @@
     }
     h1 {
       font-size: 3em;
-      margin-bottom: 20px;
+    }
+    button {
+      cursor: pointer;
     }
     #click-button {
       font-size: 24px;
       padding: 20px 40px;
+      margin-bottom: 20px;
       border: none;
       border-radius: 10px;
       background-color: #4CAF50;
       color: white;
-      cursor: pointer;
     }
     #click-button:hover {
       background-color: #45a049;
     }
     .score {
       font-size: 2em;
-      margin: 20px;
+      margin: 10px;
     }
-    .upgrade {
-      background: #fff;
-      margin: 20px auto;
-      padding: 20px;
+    .tabs {
+      margin-top: 20px;
+    }
+    .tab-button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 6px;
+      background: #007BFF;
+      color: white;
+    }
+    .tab-button:hover {
+      background: #0056b3;
+    }
+    .tab-content {
+      display: none;
+      margin-top: 20px;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .upgrade, .achievement {
+      background: white;
+      padding: 15px;
+      margin: 10px auto;
       width: 300px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .upgrade button {
-      padding: 10px 15px;
-      font-size: 16px;
-      margin-top: 10px;
-      cursor: pointer;
+    #prestige-button {
+      margin-top: 20px;
+      background: #ff9800;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
     }
     #reset-button {
       margin-top: 30px;
@@ -51,10 +76,6 @@
       border: none;
       padding: 10px 20px;
       border-radius: 8px;
-      cursor: pointer;
-    }
-    #reset-button:hover {
-      background: #c9302c;
     }
   </style>
 </head>
@@ -63,28 +84,54 @@
   <h1>Clicker Game</h1>
   <div class="score">Score: <span id="score">0</span></div>
   <div class="score">Click Power: <span id="clickPower">1</span></div>
+  <div class="score">Prestige Points: <span id="prestigePoints">0</span></div>
+  <div class="score">Multiplier: <span id="multiplier">1</span>x</div>
 
   <button id="click-button">Click Me!</button>
 
-  <div class="upgrade">
-    <h3>Upgrade Click Power</h3>
-    <p>Increase points per click</p>
-    <p>Cost: <span id="clickPowerCost">20</span></p>
-    <button id="buyClickPower">Buy</button>
+  <div class="tabs">
+    <button class="tab-button" onclick="showTab('click-tab')">Click Upgrades</button>
+    <button class="tab-button" onclick="showTab('auto-tab')">Auto Clickers</button>
+    <button class="tab-button" onclick="showTab('achievements-tab')">Achievements</button>
   </div>
 
-  <div class="upgrade">
-    <h3>Buy Auto Clicker</h3>
-    <p>Clicks every second automatically</p>
-    <p>Owned: <span id="autoClickers">0</span></p>
-    <p>Cost: <span id="autoClickerCost">50</span></p>
-    <button id="buyAutoClicker">Buy</button>
+  <!-- Click Upgrade Tab -->
+  <div id="click-tab" class="tab-content active">
+    <div class="upgrade">
+      <h3>Upgrade Click Power</h3>
+      <p>Cost: <span id="clickPowerCost">20</span></p>
+      <button id="buyClickPower">Buy</button>
+    </div>
   </div>
 
+  <!-- Auto Clicker Tab -->
+  <div id="auto-tab" class="tab-content">
+    <div class="upgrade">
+      <h3>Buy Auto Clicker</h3>
+      <p>Owned: <span id="autoClickers">0</span></p>
+      <p>Cost: <span id="autoClickerCost">50</span></p>
+      <button id="buyAutoClicker">Buy</button>
+    </div>
+  </div>
+
+  <!-- Achievements Tab -->
+  <div id="achievements-tab" class="tab-content">
+    <div class="achievement" id="achieve-100">
+      <strong>🎉 100 Clicks!</strong>
+      <p>Reach 100 score</p>
+      <p>Status: <span id="achieve-status-100">Locked</span></p>
+    </div>
+    <div class="achievement" id="achieve-10-auto">
+      <strong>🤖 Auto Army</strong>
+      <p>Own 10 auto clickers</p>
+      <p>Status: <span id="achieve-status-auto">Locked</span></p>
+    </div>
+  </div>
+
+  <button id="prestige-button" disabled>Prestige (Requires 1000 score)</button><br>
   <button id="reset-button">Reset Game</button>
 
   <script>
-    // Load saved values or defaults
     let score = parseInt(localStorage.getItem("score")) || 0;
     let clickPower = parseInt(localStorage.getItem("clickPower")) || 1;
     let clickPowerCost = parseInt(localStorage.getItem("clickPowerCost")) || 20;
@@ -92,11 +139,22 @@
     let autoClickers = parseInt(localStorage.getItem("autoClickers")) || 0;
     let autoClickerCost = parseInt(localStorage.getItem("autoClickerCost")) || 50;
 
+    let prestigePoints = parseInt(localStorage.getItem("prestigePoints")) || 0;
+    let multiplier = Math.pow(2, prestigePoints);
+
+    let achievements = JSON.parse(localStorage.getItem("achievements")) || {
+      click100: false,
+      auto10: false
+    };
+
     const scoreEl = document.getElementById('score');
     const clickPowerEl = document.getElementById('clickPower');
     const clickPowerCostEl = document.getElementById('clickPowerCost');
     const autoClickersEl = document.getElementById('autoClickers');
     const autoClickerCostEl = document.getElementById('autoClickerCost');
+    const prestigeEl = document.getElementById('prestigePoints');
+    const multiplierEl = document.getElementById('multiplier');
+    const prestigeBtn = document.getElementById('prestige-button');
 
     function updateDisplay() {
       scoreEl.textContent = score;
@@ -104,6 +162,11 @@
       clickPowerCostEl.textContent = clickPowerCost;
       autoClickersEl.textContent = autoClickers;
       autoClickerCostEl.textContent = autoClickerCost;
+      prestigeEl.textContent = prestigePoints;
+      multiplierEl.textContent = multiplier;
+
+      prestigeBtn.disabled = score < 1000;
+      updateAchievements();
     }
 
     function saveGame() {
@@ -112,10 +175,24 @@
       localStorage.setItem("clickPowerCost", clickPowerCost);
       localStorage.setItem("autoClickers", autoClickers);
       localStorage.setItem("autoClickerCost", autoClickerCost);
+      localStorage.setItem("prestigePoints", prestigePoints);
+      localStorage.setItem("achievements", JSON.stringify(achievements));
+    }
+
+    function updateAchievements() {
+      document.getElementById("achieve-status-100").textContent =
+        (achievements.click100 = score >= 100 || achievements.click100) ? "Unlocked!" : "Locked";
+      document.getElementById("achieve-status-auto").textContent =
+        (achievements.auto10 = autoClickers >= 10 || achievements.auto10) ? "Unlocked!" : "Locked";
+    }
+
+    function showTab(id) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
     }
 
     document.getElementById('click-button').addEventListener('click', () => {
-      score += clickPower;
+      score += clickPower * multiplier;
       updateDisplay();
       saveGame();
     });
@@ -124,7 +201,7 @@
       if (score >= clickPowerCost) {
         score -= clickPowerCost;
         clickPower += 1;
-        clickPowerCost = Math.floor(clickPowerCost * 1.7);
+        clickPowerCost = Math.floor(clickPowerCost * 1.5);
         updateDisplay();
         saveGame();
       }
@@ -140,21 +217,39 @@
       }
     });
 
+    document.getElementById('prestige-button').addEventListener('click', () => {
+      if (score >= 1000) {
+        if (confirm("Prestige? This will reset your progress for permanent bonuses.")) {
+          prestigePoints += 1;
+          multiplier = Math.pow(2, prestigePoints);
+
+          // Reset game variables except prestige
+          score = 0;
+          clickPower = 1;
+          clickPowerCost = 20;
+          autoClickers = 0;
+          autoClickerCost = 50;
+          achievements = { click100: false, auto10: false };
+
+          updateDisplay();
+          saveGame();
+        }
+      }
+    });
+
+    setInterval(() => {
+      score += autoClickers * multiplier;
+      updateDisplay();
+      saveGame();
+    }, 1000);
+
     document.getElementById('reset-button').addEventListener('click', () => {
-      if (confirm("Are you sure you want to reset the game?")) {
+      if (confirm("Are you sure you want to reset the game? This will also remove your prestige.")) {
         localStorage.clear();
         location.reload();
       }
     });
 
-    // Auto clicker logic
-    setInterval(() => {
-      score += autoClickers;
-      updateDisplay();
-      saveGame();
-    }, 1000);
-
-    // Load on page start
     updateDisplay();
   </script>
 
