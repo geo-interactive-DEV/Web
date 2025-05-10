@@ -1,0 +1,178 @@
+[
+  {
+    "name": "Flaremon",
+    "type": "Fire",
+    "health": 45,
+    "attack": 15,
+    "defense": 6,
+    "speed": 9,
+    "special": "Flame Burst",
+    "description": "A fiery Gmon that can ignite its foes with bursts of flame.",
+    "rarity": "rare"
+  },
+  {
+    "name": "Aqualis",
+    "type": "Water",
+    "health": 60,
+    "attack": 8,
+    "defense": 12,
+    "speed": 7,
+    "special": "Water Shield",
+    "description": "A water Gmon that uses a powerful shield and boasts strong defense.",
+    "rarity": "common"
+  },
+  {
+    "name": "Voltmon",
+    "type": "Electric",
+    "health": 50,
+    "attack": 12,
+    "defense": 8,
+    "speed": 10,
+    "special": "Thunder Shock",
+    "description": "Voltmon is quick on its feet and can zap enemies with electric shocks.",
+    "rarity": "rare"
+  },
+  {
+    "name": "Floramon",
+    "type": "Grass",
+    "health": 55,
+    "attack": 10,
+    "defense": 10,
+    "speed": 8,
+    "special": "Vine Whip",
+    "description": "Floramon harnesses the power of nature, with sturdy defense and quick strikes.",
+    "rarity": "common"
+  },
+  {
+    "name": "Psychomon",
+    "type": "Psychic",
+    "health": 45,
+    "attack": 14,
+    "defense": 6,
+    "speed": 9,
+    "special": "Mind Control",
+    "description": "With psychic abilities, Psychomon manipulates foes’ minds, making them question their next move.",
+    "rarity": "rare"
+  },
+  {
+    "name": "Glaciomon",
+    "type": "Ice",
+    "health": 50,
+    "attack": 9,
+    "defense": 10,
+    "speed": 7,
+    "special": "Ice Blast",
+    "description": "Glaciomon freezes anything in its path, with the potential to freeze enemies in battle.",
+    "rarity": "common"
+  },
+  {
+    "name": "Umbromon",
+    "type": "Dark",
+    "health": 40,
+    "attack": 16,
+    "defense": 5,
+    "speed": 10,
+    "special": "Shadow Cloak",
+    "description": "Umbromon thrives in the shadows, with high offensive capabilities and evasive skills.",
+    "rarity": "rare"
+  },
+  {
+    "name": "Steamon",
+    "type": "Steel",
+    "health": 70,
+    "attack": 8,
+    "defense": 15,
+    "speed": 4,
+    "special": "Metal Barrier",
+    "description": "A tough, metallic Gmon with unparalleled defense, perfect for stalling enemies.",
+    "rarity": "common"
+  },
+  {
+    "name": "Skymon",
+    "type": "Flying",
+    "health": 50,
+    "attack": 11,
+    "defense": 7,
+    "speed": 12,
+    "special": "Aerial Strike",
+    "description": "Skymon excels in agility and can swoop down on enemies with devastating aerial attacks.",
+    "rarity": "rare"
+  },
+  {
+    "name": "Frostmon",
+    "type": "Ice",
+    "health": 48,
+    "attack": 13,
+    "defense": 6,
+    "speed": 9,
+    "special": "Snowstorm",
+    "description": "Frostmon summons a snowstorm that hinders all foes and damages them with freezing winds.",
+    "rarity": "common"
+  },
+  {
+    "name": "Toximon",
+    "type": "Poison",
+    "health": 42,
+    "attack": 14,
+    "defense": 5,
+    "speed": 8,
+    "special": "Toxic Fumes",
+    "description": "Toximon's venomous nature makes it dangerous, slowly weakening opponents with toxic fumes.",
+    "rarity": "rare"
+  },
+  {
+    "name": "Terramon",
+    "type": "Ground",
+    "health": 60,
+    "attack": 10,
+    "defense": 14,
+    "speed": 6,
+    "special": "Earthquake",
+    "description": "Terramon controls the earth beneath it, shaking the ground to disrupt and damage foes.",
+    "rarity": "common"
+  },
+  {
+    "name": "Luminmon",
+    "type": "Light",
+    "health": 50,
+    "attack": 13,
+    "defense": 7,
+    "speed": 10,
+    "special": "Radiance",
+    "description": "Luminmon uses light to heal and enhance its team, radiating a sense of positivity.",
+    "rarity": "rare"
+  },
+  {
+    "name": "Ironmon",
+    "type": "Steel",
+    "health": 55,
+    "attack": 11,
+    "defense": 13,
+    "speed": 5,
+    "special": "Iron Claws",
+    "description": "Ironmon is heavy-duty and resilient, using its iron claws to land heavy blows.",
+    "rarity": "common"
+  },
+  {
+    "name": "Pyromon",
+    "type": "Fire",
+    "health": 47,
+    "attack": 16,
+    "defense": 5,
+    "speed": 10,
+    "special": "Inferno Blast",
+    "description": "Pyromon uses intense fire attacks to scorch enemies and leave them with burns.",
+    "rarity": "rare"
+  },
+  {
+    "name": "Venommon",
+    "type": "Poison",
+    "health": 50,
+    "attack": 12,
+    "defense": 8,
+    "speed": 9,
+    "special": "Venom Strike",
+    "description": "Venommon uses its toxic attacks to break down enemies' defenses while slowly poisoning them.",
+    "rarity": "rare"
+  }
+]
