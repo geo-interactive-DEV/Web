@@ -1,1 +1,162 @@
-if you are here then why?
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clicker Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f0f0;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+    #click-button {
+      font-size: 24px;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 10px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    #click-button:hover {
+      background-color: #45a049;
+    }
+    .score {
+      font-size: 2em;
+      margin: 20px;
+    }
+    .upgrade {
+      background: #fff;
+      margin: 20px auto;
+      padding: 20px;
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .upgrade button {
+      padding: 10px 15px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    #reset-button {
+      margin-top: 30px;
+      background: #d9534f;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #reset-button:hover {
+      background: #c9302c;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Clicker Game</h1>
+  <div class="score">Score: <span id="score">0</span></div>
+  <div class="score">Click Power: <span id="clickPower">1</span></div>
+
+  <button id="click-button">Click Me!</button>
+
+  <div class="upgrade">
+    <h3>Upgrade Click Power</h3>
+    <p>Increase points per click</p>
+    <p>Cost: <span id="clickPowerCost">20</span></p>
+    <button id="buyClickPower">Buy</button>
+  </div>
+
+  <div class="upgrade">
+    <h3>Buy Auto Clicker</h3>
+    <p>Clicks every second automatically</p>
+    <p>Owned: <span id="autoClickers">0</span></p>
+    <p>Cost: <span id="autoClickerCost">50</span></p>
+    <button id="buyAutoClicker">Buy</button>
+  </div>
+
+  <button id="reset-button">Reset Game</button>
+
+  <script>
+    // Load saved values or defaults
+    let score = parseInt(localStorage.getItem("score")) || 0;
+    let clickPower = parseInt(localStorage.getItem("clickPower")) || 1;
+    let clickPowerCost = parseInt(localStorage.getItem("clickPowerCost")) || 20;
+
+    let autoClickers = parseInt(localStorage.getItem("autoClickers")) || 0;
+    let autoClickerCost = parseInt(localStorage.getItem("autoClickerCost")) || 50;
+
+    const scoreEl = document.getElementById('score');
+    const clickPowerEl = document.getElementById('clickPower');
+    const clickPowerCostEl = document.getElementById('clickPowerCost');
+    const autoClickersEl = document.getElementById('autoClickers');
+    const autoClickerCostEl = document.getElementById('autoClickerCost');
+
+    function updateDisplay() {
+      scoreEl.textContent = score;
+      clickPowerEl.textContent = clickPower;
+      clickPowerCostEl.textContent = clickPowerCost;
+      autoClickersEl.textContent = autoClickers;
+      autoClickerCostEl.textContent = autoClickerCost;
+    }
+
+    function saveGame() {
+      localStorage.setItem("score", score);
+      localStorage.setItem("clickPower", clickPower);
+      localStorage.setItem("clickPowerCost", clickPowerCost);
+      localStorage.setItem("autoClickers", autoClickers);
+      localStorage.setItem("autoClickerCost", autoClickerCost);
+    }
+
+    document.getElementById('click-button').addEventListener('click', () => {
+      score += clickPower;
+      updateDisplay();
+      saveGame();
+    });
+
+    document.getElementById('buyClickPower').addEventListener('click', () => {
+      if (score >= clickPowerCost) {
+        score -= clickPowerCost;
+        clickPower += 1;
+        clickPowerCost = Math.floor(clickPowerCost * 1.7);
+        updateDisplay();
+        saveGame();
+      }
+    });
+
+    document.getElementById('buyAutoClicker').addEventListener('click', () => {
+      if (score >= autoClickerCost) {
+        score -= autoClickerCost;
+        autoClickers += 1;
+        autoClickerCost = Math.floor(autoClickerCost * 1.5);
+        updateDisplay();
+        saveGame();
+      }
+    });
+
+    document.getElementById('reset-button').addEventListener('click', () => {
+      if (confirm("Are you sure you want to reset the game?")) {
+        localStorage.clear();
+        location.reload();
+      }
+    });
+
+    // Auto clicker logic
+    setInterval(() => {
+      score += autoClickers;
+      updateDisplay();
+      saveGame();
+    }, 1000);
+
+    // Load on page start
+    updateDisplay();
+  </script>
+
+</body>
+</html>
