@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Clicker Game with Prestige, Achievements, and Offline Progress</title>
+  <title>Clicker Game with Prestige, Achievements, Offline Progress, and Saving</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -158,6 +158,34 @@
     let achievementClicks = 0;
     let milestone = 0;
 
+    // Load saved data from localStorage
+    function loadGame() {
+      if (localStorage.getItem('score')) score = parseInt(localStorage.getItem('score'));
+      if (localStorage.getItem('clickPower')) clickPower = parseInt(localStorage.getItem('clickPower'));
+      if (localStorage.getItem('prestigePoints')) prestigePoints = parseInt(localStorage.getItem('prestigePoints'));
+      if (localStorage.getItem('multiplier')) multiplier = parseInt(localStorage.getItem('multiplier'));
+      if (localStorage.getItem('autoClickers')) autoClickers = parseInt(localStorage.getItem('autoClickers'));
+      if (localStorage.getItem('achievementClicks')) achievementClicks = parseInt(localStorage.getItem('achievementClicks'));
+      if (localStorage.getItem('milestone')) milestone = parseInt(localStorage.getItem('milestone'));
+      updateScoreDisplay();
+    }
+
+    // Save game state to localStorage
+    function saveGame() {
+      localStorage.setItem('score', score);
+      localStorage.setItem('clickPower', clickPower);
+      localStorage.setItem('prestigePoints', prestigePoints);
+      localStorage.setItem('multiplier', multiplier);
+      localStorage.setItem('autoClickers', autoClickers);
+      localStorage.setItem('achievementClicks', achievementClicks);
+      localStorage.setItem('milestone', milestone);
+    }
+
+    // Save and load on page load
+    window.onload = () => {
+      loadGame();
+    };
+
     const clickButton = document.getElementById('click-button');
     const scoreDisplay = document.getElementById('score');
     const clickPowerDisplay = document.getElementById('clickPower');
@@ -178,6 +206,7 @@
       milestoneCheck();
       updateScoreDisplay();
       showFloatingText('+ ' + (clickPower * multiplier));
+      saveGame();
     });
 
     // Upgrade click power
@@ -188,6 +217,7 @@
         clickPower++;
         updateScoreDisplay();
         clickPowerCostDisplay.innerText = Math.floor(cost * 1.5);
+        saveGame();
       }
     });
 
@@ -199,6 +229,7 @@
         doubleClick = true;
         updateScoreDisplay();
         doubleClickCostDisplay.innerText = Math.floor(cost * 1.5);
+        saveGame();
       }
     });
 
@@ -211,6 +242,7 @@
         updateScoreDisplay();
         autoClickersDisplay.innerText = autoClickers;
         autoClickerCostDisplay.innerText = Math.floor(cost * 1.5);
+        saveGame();
       }
     });
 
@@ -218,81 +250,4 @@
     document.getElementById('buyPrestigeUpgrade').addEventListener('click', () => {
       const cost = parseInt(prestigeUpgradeCostDisplay.innerText);
       if (prestigePoints >= cost) {
-        prestigePoints -= cost;
-        multiplier++;
-        updateScoreDisplay();
-        prestigeUpgradeCostDisplay.innerText = Math.floor(cost * 1.5);
-      }
-    });
-
-    // Prestige button
-    document.getElementById('prestige-button').addEventListener('click', () => {
-      prestigePoints++;
-      clickPower = 1;
-      multiplier = 1;
-      autoClickers = 0;
-      updateScoreDisplay();
-      prestigePointsDisplay.innerText = prestigePoints;
-    });
-
-    // Reset button
-    document.getElementById('reset-button').addEventListener('click', () => {
-      score = 0;
-      clickPower = 1;
-      prestigePoints = 0;
-      multiplier = 1;
-      autoClickers = 0;
-      achievementClicks = 0;
-      milestone = 0;
-      updateScoreDisplay();
-    });
-
-    // Night mode toggle
-    themeButton.addEventListener('click', () => {
-      document.body.classList.toggle('night-mode');
-    });
-
-    // Floating text effect
-    function showFloatingText(text) {
-      const floatingText = document.createElement('div');
-      floatingText.classList.add('floating-text');
-      floatingText.innerText = text;
-      document.body.appendChild(floatingText);
-      setTimeout(() => {
-        floatingText.remove();
-      }, 1000);
-    }
-
-    // Update score display
-    function updateScoreDisplay() {
-      scoreDisplay.innerText = score;
-      clickPowerDisplay.innerText = clickPower;
-      prestigePointsDisplay.innerText = prestigePoints;
-      multiplierDisplay.innerText = multiplier;
-    }
-
-    // Show specific tab content
-    function showTab(tab) {
-      const tabs = document.querySelectorAll('.tab-content');
-      tabs.forEach(tabContent => tabContent.classList.remove('active'));
-      document.getElementById(tab).classList.add('active');
-    }
-
-    // Achievement milestone tracking
-    function milestoneCheck() {
-      if (achievementClicks >= milestone * 1000) {
-        milestone++;
-        milestoneDisplay.innerText = milestone;
-      }
-    }
-
-    // Simulate auto clickers
-    setInterval(() => {
-      if (autoClickers > 0) {
-        score += autoClickers * clickPower;
-        updateScoreDisplay();
-      }
-    }, 1000);
-  </script>
-</body>
-</html>
+        prestigePoints -= cost
