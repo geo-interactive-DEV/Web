@@ -251,3 +251,71 @@
       const cost = parseInt(prestigeUpgradeCostDisplay.innerText);
       if (prestigePoints >= cost) {
         prestigePoints -= cost
+        multiplier += 0.5;
+        updateScoreDisplay();
+        prestigeUpgradeCostDisplay.innerText = Math.floor(cost * 1.5);
+        saveGame();
+      }
+    });
+
+    // Prestige system
+    document.getElementById('prestige-button').addEventListener('click', () => {
+      if (score >= 1000) {
+        prestigePoints++;
+        score = 0;
+        clickPower = 1;
+        updateScoreDisplay();
+        saveGame();
+      }
+    });
+
+    // Reset game
+    document.getElementById('reset-button').addEventListener('click', () => {
+      if (confirm('Are you sure you want to reset your progress?')) {
+        localStorage.clear();
+        location.reload();
+      }
+    });
+
+    // Toggle night mode
+    themeButton.addEventListener('click', () => {
+      document.body.classList.toggle('night-mode');
+    });
+
+    // Show floating text when clicking
+    function showFloatingText(text) {
+      const floatingText = document.createElement('div');
+      floatingText.classList.add('floating-text');
+      floatingText.innerText = text;
+      document.body.appendChild(floatingText);
+      setTimeout(() => floatingText.remove(), 1000);
+    }
+
+    // Update score and UI
+    function updateScoreDisplay() {
+      scoreDisplay.innerText = score;
+      clickPowerDisplay.innerText = clickPower;
+      prestigePointsDisplay.innerText = prestigePoints;
+      multiplierDisplay.innerText = multiplier;
+      achievementClicksDisplay.innerText = achievementClicks;
+      milestoneDisplay.innerText = milestone;
+    }
+
+    // Show specific tab content
+    function showTab(tabId) {
+      const allTabs = document.querySelectorAll('.tab-content');
+      allTabs.forEach(tab => tab.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    // Achievement check
+    function milestoneCheck() {
+      if (achievementClicks >= 100 && milestone === 0) {
+        milestone = 1;
+        alert('Achievement Unlocked: 100 Clicks!');
+        saveGame();
+      }
+    }
+  </script>
+</body>
+</html>
