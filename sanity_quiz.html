@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sanity Quiz</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #00ffff;
+    }
+
+    .question {
+      margin: 20px 0;
+      font-size: 1.2rem;
+    }
+
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .answers button {
+      background: #333;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .answers button:hover {
+      background: #00ffff;
+      color: black;
+    }
+
+    #next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #00ffff;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #result-container {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      color: #ff66cc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧠 Sanity Quiz</h1>
+    <div id="quiz-container"></div>
+    <button id="next-btn" onclick="nextQuestion()" style="display:none;">Next</button>
+    <div id="result-container"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "You hear a voice calling your name in an empty room. What do you do?",
+        answers: [
+          { text: "Investigate cautiously", damage: 5 },
+          { text: "Call out: 'Who's there?'", damage: 10 },
+          { text: "Run screaming", damage: 20 },
+          { text: "Answer it calmly", damage: 30 }
+        ]
+      },
+      {
+        question: "Pick a snack:",
+        answers: [
+          { text: "Cookies", damage: 0 },
+          { text: "Raw onion", damage: 15 },
+          { text: "Air", damage: 25 },
+          { text: "Your own thoughts", damage: 40 }
+        ]
+      },
+      {
+        question: "What color is the number 7?",
+        answers: [
+          { text: "It has no color", damage: 0 },
+          { text: "Green", damage: 10 },
+          { text: "Purple, and it sings", damage: 30 },
+          { text: "Banana", damage: 50 }
+        ]
+      },
+      {
+        question: "Which of these animals would you trust with your secrets?",
+        answers: [
+          { text: "Dog", damage: 0 },
+          { text: "Crow", damage: 10 },
+          { text: "Toaster", damage: 30 },
+          { text: "Your mirror self", damage: 50 }
+        ]
+      },
+      {
+        question: "You wake up and everyone speaks in reverse. Your reaction?",
+        answers: [
+          { text: "Panic!", damage: 20 },
+          { text: "Go along with it", damage: 30 },
+          { text: "Try to learn their language", damage: 15 },
+          { text: "This is fine", damage: 40 }
+        ]
+      }
+    ];
+
+    let currentQuestion = 0;
+    let sanity = 100;
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      const quizContainer = document.getElementById("quiz-container");
+      quizContainer.innerHTML = `
+        <div class="question">${q.question}</div>
+        <div class="answers">
+          ${q.answers.map((a, i) => 
+            `<button onclick="selectAnswer(${a.damage})">${a.text}</button>`
+          ).join('')}
+        </div>
+      `;
+      document.getElementById("next-btn").style.display = "none";
+    }
+
+    function selectAnswer(damage) {
+      sanity -= damage;
+      document.querySelectorAll('.answers button').forEach(btn => btn.disabled = true);
+      document.getElementById("next-btn").style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      const resultContainer = document.getElementById("result-container");
+      document.getElementById("quiz-container").innerHTML = "";
+      document.getElementById("next-btn").style.display = "none";
+
+      let message = "";
+      if (sanity > 80) {
+        message = "🧠 100% Sane – You're as normal as it gets… suspiciously so.";
+      } else if (sanity > 60) {
+        message = "😐 Slightly Strange – You're mostly sane, but we see a flicker.";
+      } else if (sanity > 40) {
+        message = "🤪 Off the Rails – You dance on the edge of madness.";
+      } else if (sanity > 20) {
+        message = "😵 Reality Bender – The laws of logic don't apply to you.";
+      } else {
+        message = "👽 Fully Bonkers – You are one with the chaos. Welcome home.";
+      }
+
+      resultContainer.innerHTML = `
+        <p>Your final sanity: <strong>${sanity}%</strong></p>
+        <p>${message}</p>
+      `;
+    }
+
+    // Start quiz
+    showQuestion();
+  </script>
+</body>
+</html>
