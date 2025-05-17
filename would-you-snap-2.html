@@ -3,111 +3,143 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Stick Figure Rage RPG</title>
+<title>Stick Figure RPG - Walk & Rage</title>
 <style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #e0e7ff;
-    color: #222;
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px #666;
-    user-select: none;
+    background: #d0e7f9;
+    margin: 0; padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  h1 {
-    text-align: center;
-    margin-bottom: 10px;
+  #gameContainer {
+    position: relative;
+    margin-top: 20px;
+    border: 3px solid #333;
+    background: #a3d9ff;
   }
-  #stickFigureCanvas {
+  canvas {
     display: block;
-    margin: 0 auto 20px auto;
-    background: #fefefe;
+    background: #90c3f7;
+  }
+  #ui {
+    max-width: 600px;
+    width: 100%;
+    margin-top: 15px;
+    background: #f0f0f5;
     border-radius: 10px;
-    box-shadow: 0 0 8px #aaa;
+    padding: 15px;
+    box-shadow: 0 0 10px #aaa;
   }
   #scenario {
     font-size: 1.2em;
-    margin-bottom: 20px;
     min-height: 60px;
-    text-align: center;
+    margin-bottom: 10px;
   }
-  #choices {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  button {
-    padding: 12px;
-    font-size: 1.1em;
+  #choices button {
+    display: block;
+    width: 100%;
+    margin: 6px 0;
+    padding: 10px;
+    font-size: 1em;
     border-radius: 6px;
     border: none;
     cursor: pointer;
-    background-color: #4c84ff;
+    background: #3498db;
     color: white;
-    transition: background-color 0.3s ease;
   }
-  button:hover {
-    background-color: #3a6edd;
+  #choices button:hover {
+    background: #2980b9;
   }
   #rageMeterContainer {
-    background: #ddd;
-    border-radius: 12px;
-    margin: 25px 0 20px 0;
-    height: 30px;
+    background: #ccc;
+    border-radius: 8px;
+    margin: 15px 0 5px 0;
+    height: 25px;
     width: 100%;
     overflow: hidden;
-    box-shadow: inset 0 0 5px #999;
   }
   #rageMeter {
     background: #e74c3c;
     width: 0%;
     height: 100%;
-    transition: width 0.5s ease, background-color 0.5s ease;
+    transition: width 0.5s ease;
+  }
+  #rageEmoji {
+    font-size: 3em;
+    text-align: center;
+    user-select: none;
+    margin-bottom: 5px;
   }
   #result {
     font-weight: bold;
-    font-size: 1.3em;
+    font-size: 1.1em;
     text-align: center;
-    min-height: 40px;
-    margin-bottom: 20px;
-    color: #333;
+    min-height: 30px;
   }
   #restartBtn {
-    display: none;
-    margin: 0 auto;
-    background-color: #27ae60;
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    font-size: 1em;
+    border: none;
+    border-radius: 6px;
+    background: #27ae60;
     color: white;
-    font-size: 1.1em;
-    padding: 10px 20px;
+    cursor: pointer;
+  }
+  #restartBtn:hover {
+    background: #1e8449;
   }
 </style>
 </head>
 <body>
 
-<h1>Stick Figure Rage RPG</h1>
+<h1>Stick Figure RPG - Walk Around & Manage Rage</h1>
 
-<canvas id="stickFigureCanvas" width="200" height="300" aria-label="Stick figure representing your character"></canvas>
-
-<div id="scenario"></div>
-
-<div id="choices"></div>
-
-<div id="rageMeterContainer" aria-label="Rage meter">
-  <div id="rageMeter"></div>
+<div id="gameContainer">
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
 </div>
 
-<div id="result" role="alert" aria-live="polite"></div>
-<button id="restartBtn" aria-label="Reset the game">Reset Rage</button>
+<div id="ui">
+  <div id="rageEmoji">😌</div>
+  <div id="rageMeterContainer"><div id="rageMeter"></div></div>
+  <div id="scenario"></div>
+  <div id="choices"></div>
+  <div id="result"></div>
+  <button id="restartBtn">Reset Rage</button>
+</div>
 
 <script>
+  // Canvas setup
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+  const width = canvas.width;
+  const height = canvas.height;
+
+  // Player properties
+  const player = {
+    x: 200,
+    y: 200,
+    size: 20,
+    speed: 3,
+  };
+
+  // Scenario spots in the town (x, y, radius)
+  const scenarioSpots = [
+    {x: 100, y: 80, radius: 25},
+    {x: 320, y: 150, radius: 30},
+    {x: 250, y: 320, radius: 30},
+    {x: 70, y: 300, radius: 25},
+  ];
+
+  // Scenarios like original ones
   const scenarioSubjects = [
     "Someone is loudly", "Your friend is", "Your phone is",
     "A coworker", "Your neighbor", "The driver behind you is",
     "Your sibling", "Your boss", "The waiter"
   ];
-
   const scenarioActions = [
     "chewing gum right next to you",
     "late without telling you",
@@ -120,180 +152,178 @@
     "forgetting your order at the restaurant"
   ];
 
+  // Choices that increase or keep rage
   const rageChoices = [
     {text: "Stay calm, ignore it.", rageChange: 0},
     {text: "Feel a little annoyed.", rageChange: 15},
     {text: "Snap and yell about it!", rageChange: 45}
   ];
 
+  // Chill out choices that reduce rage
   const chillChoices = [
     {text: "Take deep breaths.", rageChange: -10},
     {text: "Walk away and calm down.", rageChange: -20}
   ];
 
+  // Rage (0 - 200)
   let rage = 0;
 
+  // UI Elements
   const scenarioEl = document.getElementById('scenario');
   const choicesEl = document.getElementById('choices');
   const rageMeterEl = document.getElementById('rageMeter');
   const resultEl = document.getElementById('result');
   const restartBtn = document.getElementById('restartBtn');
-  const canvas = document.getElementById('stickFigureCanvas');
-  const ctx = canvas.getContext('2d');
+  const rageEmojiEl = document.getElementById('rageEmoji');
 
-  // Draw stick figure with expression based on rage
-  function drawStickFigure(rageLevel) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // Keyboard input
+  const keys = {};
+  window.addEventListener('keydown', e => {
+    keys[e.key.toLowerCase()] = true;
+  });
+  window.addEventListener('keyup', e => {
+    keys[e.key.toLowerCase()] = false;
+  });
 
-    // Body params
-    const centerX = canvas.width / 2;
-    const headY = 70;
-    const bodyStartY = 120;
-    const bodyEndY = 220;
-    const armY = 150;
-    const legY = 220;
+  // Current active scenario (null if none)
+  let activeScenario = null;
+  let inScenario = false;
 
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = '#222';
-
-    // Draw head (circle)
-    ctx.beginPath();
-    ctx.arc(centerX, headY, 40, 0, Math.PI * 2);
-    ctx.stroke();
-
-    // Draw body (line)
-    ctx.beginPath();
-    ctx.moveTo(centerX, bodyStartY);
-    ctx.lineTo(centerX, bodyEndY);
-    ctx.stroke();
-
-    // Draw arms
-    ctx.beginPath();
-    ctx.moveTo(centerX, armY);
-    ctx.lineTo(centerX - 60, armY + 40);
-    ctx.moveTo(centerX, armY);
-    ctx.lineTo(centerX + 60, armY + 40);
-    ctx.stroke();
-
-    // Draw legs
-    ctx.beginPath();
-    ctx.moveTo(centerX, legY);
-    ctx.lineTo(centerX - 50, legY + 70);
-    ctx.moveTo(centerX, legY);
-    ctx.lineTo(centerX + 50, legY + 70);
-    ctx.stroke();
-
-    // Draw face expression based on rageLevel
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = '#222';
-
-    // Eyes
-    ctx.beginPath();
-    if (rageLevel < 50) {
-      // Calm eyes: circles
-      ctx.arc(centerX - 15, headY - 10, 7, 0, Math.PI * 2);
-      ctx.arc(centerX + 15, headY - 10, 7, 0, Math.PI * 2);
-    } else if (rageLevel < 100) {
-      // Annoyed eyes: straight line
-      ctx.moveTo(centerX - 22, headY - 15);
-      ctx.lineTo(centerX - 8, headY - 5);
-      ctx.moveTo(centerX + 8, headY - 5);
-      ctx.lineTo(centerX + 22, headY - 15);
-    } else {
-      // Angry eyes: downward slant
-      ctx.moveTo(centerX - 25, headY - 20);
-      ctx.lineTo(centerX - 5, headY - 10);
-      ctx.moveTo(centerX + 5, headY - 10);
-      ctx.lineTo(centerX + 25, headY - 20);
-    }
-    ctx.stroke();
-
-    // Mouth
-    ctx.beginPath();
-    if (rageLevel < 50) {
-      // Smiling
-      ctx.arc(centerX, headY + 15, 20, 0, Math.PI, false);
-    } else if (rageLevel < 100) {
-      // Neutral
-      ctx.moveTo(centerX - 20, headY + 20);
-      ctx.lineTo(centerX + 20, headY + 20);
-    } else if (rageLevel < 150) {
-      // Frown
-      ctx.arc(centerX, headY + 40, 20, Math.PI, 0, false);
-    } else {
-      // Angry open mouth (like yelling)
-      ctx.moveTo(centerX - 15, headY + 15);
-      ctx.lineTo(centerX + 15, headY + 15);
-      ctx.lineTo(centerX, headY + 45);
-      ctx.closePath();
-    }
-    ctx.stroke();
-
-    // Add red "rage" lines for very high rage
-    if (rageLevel >= 150) {
-      ctx.strokeStyle = 'red';
-      ctx.lineWidth = 2;
-      for (let i = 0; i < 8; i++) {
-        let angle = (i * Math.PI / 4) - Math.PI / 8;
-        let startX = centerX + 45 * Math.cos(angle);
-        let startY = headY + 45 * Math.sin(angle);
-        let endX = centerX + 70 * Math.cos(angle);
-        let endY = headY + 70 * Math.sin(angle);
-        ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        ctx.lineTo(endX, endY);
-        ctx.stroke();
-      }
-    }
-  }
-
-  function generateScenario() {
+  function generateScenarioText() {
     const subj = scenarioSubjects[Math.floor(Math.random() * scenarioSubjects.length)];
     const act = scenarioActions[Math.floor(Math.random() * scenarioActions.length)];
     return `${subj} ${act}.`;
   }
 
-  function updateRageMeter() {
-    const ragePercent = (rage / 200) * 100;
-    rageMeterEl.style.width = ragePercent + '%';
-
-    if (rage < 50) {
-      rageMeterEl.style.backgroundColor = '#27ae60'; // green
-    } else if (rage < 100) {
-      rageMeterEl.style.backgroundColor = '#f39c12'; // orange
-    } else if (rage < 150) {
-      rageMeterEl.style.backgroundColor = '#d35400'; // dark orange
-    } else {
-      rageMeterEl.style.backgroundColor = '#e74c3c'; // red
-    }
+  function getRageEmoji(r) {
+    if (r >= 200) return "💥";
+    if (r >= 150) return "🤬";
+    if (r >= 100) return "😡";
+    if (r >= 50) return "😠";
+    return "😌";
   }
 
-  function showScenario() {
-    if (rage >= 200) {
-      scenarioEl.textContent = "This was the last straw...";
-      choicesEl.innerHTML = '';
-      resultEl.textContent = "💥 You snapped completely and lost control!";
-      restartBtn.style.display = 'block';
-      drawStickFigure(rage);
-      updateRageMeter();
-      return;
+  function updateRageMeter() {
+    const percent = (rage / 200) * 100;
+    rageMeterEl.style.width = percent + '%';
+
+    if (rage < 50) rageMeterEl.style.backgroundColor = '#27ae60'; // green
+    else if (rage < 100) rageMeterEl.style.backgroundColor = '#f39c12'; // orange
+    else if (rage < 150) rageMeterEl.style.backgroundColor = '#d35400'; // dark orange
+    else rageMeterEl.style.backgroundColor = '#e74c3c'; // red
+  }
+
+  function updateRageEmoji() {
+    rageEmojiEl.textContent = getRageEmoji(rage);
+  }
+
+  function drawStickFigure(x, y, size) {
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'black';
+    ctx.fillStyle = 'black';
+
+    // Head
+    ctx.beginPath();
+    ctx.arc(x, y - size*0.8, size*0.3, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Body
+    ctx.beginPath();
+    ctx.moveTo(x, y - size*0.5);
+    ctx.lineTo(x, y + size*0.5);
+    ctx.stroke();
+
+    // Arms
+    ctx.beginPath();
+    ctx.moveTo(x - size*0.5, y);
+    ctx.lineTo(x + size*0.5, y);
+    ctx.stroke();
+
+    // Legs
+    ctx.beginPath();
+    ctx.moveTo(x, y + size*0.5);
+    ctx.lineTo(x - size*0.5, y + size);
+    ctx.moveTo(x, y + size*0.5);
+    ctx.lineTo(x + size*0.5, y + size);
+    ctx.stroke();
+  }
+
+  function drawScenarioSpots() {
+    ctx.fillStyle = '#ffcc00';
+    ctx.strokeStyle = '#b38600';
+    scenarioSpots.forEach(spot => {
+      ctx.beginPath();
+      ctx.arc(spot.x, spot.y, spot.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    });
+  }
+
+  function clearCanvas() {
+    ctx.clearRect(0, 0, width, height);
+  }
+
+  function draw() {
+    clearCanvas();
+
+    // Draw scenario spots
+    drawScenarioSpots();
+
+    // Draw player stick figure
+    drawStickFigure(player.x, player.y, player.size);
+  }
+
+  function distance(x1, y1, x2, y2) {
+    return Math.hypot(x2 - x1, y2 - y1);
+  }
+
+  function clamp(val, min, max) {
+    return Math.min(Math.max(val, min), max);
+  }
+
+  // Game loop
+  function gameLoop() {
+    if (!inScenario) {
+      // Movement controls (arrows and WASD)
+      if (keys['arrowup'] || keys['w']) player.y -= player.speed;
+      if (keys['arrowdown'] || keys['s']) player.y += player.speed;
+      if (keys['arrowleft'] || keys['a']) player.x -= player.speed;
+      if (keys['arrowright'] || keys['d']) player.x += player.speed;
+
+      // Keep player inside canvas
+      player.x = clamp(player.x, player.size/2, width - player.size/2);
+      player.y = clamp(player.y, player.size/2, height - player.size/2);
+
+      // Check proximity to scenario spots
+      for (let spot of scenarioSpots) {
+        if (distance(player.x, player.y, spot.x, spot.y) <= spot.radius + player.size/2) {
+          // Trigger scenario if none active
+          if (!inScenario) {
+            startScenario();
+            break;
+          }
+        }
+      }
     }
 
-    const scenarioText = generateScenario();
-    scenarioEl.textContent = scenarioText;
+    draw();
+    requestAnimationFrame(gameLoop);
+  }
 
-    // Mix choices and shuffle
+  function startScenario() {
+    inScenario = true;
+    activeScenario = generateScenarioText();
+    scenarioEl.textContent = activeScenario;
+
+    // Show choices (mix rage + chill)
     let combinedChoices = [...rageChoices, ...chillChoices];
 
+    // Small ±5 variation on rageChange like original
     combinedChoices = combinedChoices.map(choice => {
       let variation = Math.floor(Math.random() * 11) - 5;
-      if (choice.rageChange < 0) {
-        variation = Math.min(variation, 0);
-      } else if (choice.rageChange > 0) {
-        variation = Math.max(variation, 0);
-      } else {
-        variation = 0;
-      }
+      if (choice.rageChange < 0) variation = Math.min(variation, 0);
+      else if (choice.rageChange > 0) variation = Math.max(variation, 0);
+      else variation = 0;
       return {
         text: choice.text,
         rageChange: choice.rageChange + variation
@@ -308,44 +338,63 @@
       btn.textContent = choice.text;
       btn.onclick = () => {
         rage += choice.rageChange;
-        if (rage > 200) rage = 200;
-        if (rage < 0) rage = 0;
+        rage = clamp(rage, 0, 200);
+
         updateRageMeter();
+        updateRageEmoji();
         showRageWarning();
-        drawStickFigure(rage);
-        showScenario();
+
+        // If rage maxed out: game over message
+        if (rage >= 200) {
+          scenarioEl.textContent = "This was the last straw...";
+          resultEl.textContent = "💥 You lost control and snapped!";
+          choicesEl.innerHTML = '';
+          restartBtn.style.display = 'block';
+          return;
+        }
+
+        // Close scenario and continue walking
+        inScenario = false;
+        activeScenario = null;
+        scenarioEl.textContent = '';
+        choicesEl.innerHTML = '';
+        resultEl.textContent = '';
       };
       choicesEl.appendChild(btn);
     });
 
-    resultEl.textContent = '';
     restartBtn.style.display = 'none';
-    drawStickFigure(rage);
-  }
-
-  function showRageWarning() {
-    if (rage >= 150 && rage < 200) {
-      resultEl.textContent = `⚠️ Rage is dangerously high: ${rage}/200! Try to calm down!`;
-    } else if (rage >= 100) {
-      resultEl.textContent = `Warning! Rage is high: ${rage}/200. You might snap soon!`;
-    } else {
-      resultEl.textContent = '';
-    }
-  }
-
-  restartBtn.onclick = () => {
-    rage = 0;
-    updateRageMeter();
-    drawStickFigure(rage);
     resultEl.textContent = '';
-    showScenario();
-  };
+function showRageWarning() {
+  if (rage >= 150) {
+    resultEl.textContent = "⚠️ Your rage is very high!";
+  } else if (rage >= 100) {
+    resultEl.textContent = "😡 You're getting angry...";
+  } else {
+    resultEl.textContent = '';
+  }
+}
 
-  // Init
+restartBtn.onclick = () => {
+  rage = 0;
   updateRageMeter();
-  drawStickFigure(rage);
-  showScenario();
-</script>
+  updateRageEmoji();
 
-</body>
-</html>
+  // Clear scenario and choices
+  resultEl.textContent = '';
+  scenarioEl.textContent = '';
+  choicesEl.innerHTML = '';
+
+  inScenario = false;
+  activeScenario = null;
+
+  restartBtn.style.display = 'none';
+};
+
+// Initialize UI
+updateRageMeter();
+updateRageEmoji();
+restartBtn.style.display = 'none';
+
+// Start game loop
+gameLoop();
