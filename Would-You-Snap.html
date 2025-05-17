@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Would You Snap?</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f0f5;
+    color: #222;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #aaa;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  #scenario {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    min-height: 60px;
+  }
+  button {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #ddd;
+  }
+  #rageMeterContainer {
+    background: #ccc;
+    border-radius: 8px;
+    margin: 25px 0;
+    height: 25px;
+    width: 100%;
+    overflow: hidden;
+  }
+  #rageMeter {
+    background: #e74c3c;
+    width: 0%;
+    height: 100%;
+    transition: width 0.5s ease;
+  }
+  #result {
+    font-weight: bold;
+    font-size: 1.3em;
+    text-align: center;
+    margin-top: 25px;
+  }
+  #restartBtn {
+    display: none;
+    margin-top: 15px;
+    background-color: #3498db;
+    color: white;
+  }
+</style>
+</head>
+<body>
+
+<h1>Would You Snap?</h1>
+
+<div id="scenario"></div>
+
+<div id="choices"></div>
+
+<div id="rageMeterContainer">
+  <div id="rageMeter"></div>
+</div>
+
+<div id="result"></div>
+<button id="restartBtn">Play Again</button>
+
+<script>
+  // Scenario data with text and choices
+  const scenarios = [
+    {
+      text: "Someone is loudly chewing gum right next to you.",
+      choices: [
+        { text: "Stay calm, ignore it.", rageChange: 0 },
+        { text: "Feel a little annoyed.", rageChange: 20 },
+        { text: "Snap and tell them to stop!", rageChange: 50 }
+      ]
+    },
+    {
+      text: "You’ve been waiting 20 minutes for a friend who’s late.",
+      choices: [
+        { text: "Keep waiting patiently.", rageChange: 0 },
+        { text: "Send a passive-aggressive message.", rageChange: 15 },
+        { text: "Blow up and rant to them!", rageChange: 40 }
+      ]
+    },
+    {
+      text: "Your phone autocorrect changes 'no' to 'on' constantly.",
+      choices: [
+        { text: "Laugh it off.", rageChange: 0 },
+        { text: "Get a bit frustrated.", rageChange: 10 },
+        { text: "Throw the phone down!", rageChange: 50 }
+      ]
+    },
+    {
+      text: "A coworker takes the last coffee without making more.",
+      choices: [
+        { text: "Make more coffee yourself.", rageChange: 0 },
+        { text: "Complain to them quietly.", rageChange: 15 },
+        { text: "Yell at them in the office!", rageChange: 45 }
+      ]
+    }
+  ];
+
+  let currentIndex = 0; // current scenario index
+  let rage = 0;         // player's rage meter value (0-100)
+
+  const scenarioEl = document.getElementById('scenario');
+  const choicesEl = document.getElementById('choices');
+  const rageMeterEl = document.getElementById('rageMeter');
+  const resultEl = document.getElementById('result');
+  const restartBtn = document.getElementById('restartBtn');
+
+  // Function to show the current scenario and choices
+  function updateScenario() {
+    if (currentIndex >= scenarios.length) {
+      showResult();
+      return;
+    }
+    const scenario = scenarios[currentIndex];
+    scenarioEl.textContent = scenario.text;
+    choicesEl.innerHTML = '';
+    scenario.choices.forEach(choice => {
+      const btn = document.createElement('button');
+      btn.textContent = choice.text;
+      btn.onclick = () => {
+        let rageChange = choice.rageChange;
+
+        // Add a 30% chance of small rage if ignoring (rageChange == 0)
+        if (rageChange === 0 && Math.random() < 0.3) {
+          rageChange = 10;
+        }
+
+        rage += rageChange;
+        if (rage > 100) rage = 100;
+        if (rage < 0) rage = 0;
+
+        updateRageMeter();
+        currentIndex++;
+        updateScenario();
+      };
+      choicesEl.appendChild(btn);
+    });
+  }
+
+  // Update the visual rage meter bar
+  function updateRageMeter() {
+    rageMeterEl.style.width = rage + '%';
+  }
+
+  // Show final result message based on rage value
+  function showResult() {
+    scenarioEl.textContent = '';
+    choicesEl.innerHTML = '';
+    restartBtn.style.display = 'block';
+    if (rage >= 75) {
+      resultEl.textContent = `You snapped! Rage level: ${rage}%. Time to chill out.`;
+    } else if (rage >= 40) {
+      resultEl.textContent = `You were pretty annoyed. Rage level: ${rage}%. Keep calm next time!`;
+    } else {
+      resultEl.textContent = `Cool as a cucumber! Rage level: ${rage}%. You're a zen master.`;
+    }
+  }
+
+  // Restart game handler
+  restartBtn.onclick = () => {
+    rage = 0;
+    currentIndex = 0;
+    resultEl.textContent = '';
+    restartBtn.style.display = 'none';
+    updateRageMeter();
+    updateScenario();
+  };
+
+  // Initialize game on page load
+  updateScenario();
+</script>
+
+</body>
+</html>
