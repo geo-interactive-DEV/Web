@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Would You Snap? (Infinite)</title>
+<title>Would You Snap? (Rage 0-200 with Chill Out)</title>
 <style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -40,7 +40,7 @@
   #rageMeterContainer {
     background: #ccc;
     border-radius: 8px;
-    margin: 25px 0;
+    margin: 15px 0 25px 0;
     height: 25px;
     width: 100%;
     overflow: hidden;
@@ -55,7 +55,8 @@
     font-weight: bold;
     font-size: 1.3em;
     text-align: center;
-    margin-top: 25px;
+    margin-top: 15px;
+    min-height: 40px;
   }
   #restartBtn {
     display: none;
@@ -63,16 +64,23 @@
     background-color: #3498db;
     color: white;
   }
+  #rageEmoji {
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 10px;
+    user-select: none;
+  }
 </style>
 </head>
 <body>
 
-<h1>Would You Snap? (Infinite)</h1>
+<h1>Would You Snap? (Rage 0-200 with Chill Out)</h1>
 
 <div id="scenario"></div>
 
 <div id="choices"></div>
 
+<div id="rageEmoji">😌</div>
 <div id="rageMeterContainer">
   <div id="rageMeter"></div>
 </div>
@@ -81,7 +89,6 @@
 <button id="restartBtn">Reset Rage</button>
 
 <script>
-  // Base template parts to generate random scenarios
   const scenarioSubjects = [
     "Someone is loudly", "Your friend is", "Your phone is",
     "A coworker", "Your neighbor", "The driver behind you is",
@@ -100,106 +107,148 @@
     "forgetting your order at the restaurant"
   ];
 
-  // Possible choices templates with rage changes
-  const choiceTemplates = [
+  // Choices that increase or keep rage
+  const rageChoices = [
     {text: "Stay calm, ignore it.", rageChange: 0},
     {text: "Feel a little annoyed.", rageChange: 15},
     {text: "Snap and yell about it!", rageChange: 45}
   ];
 
-  let rage = 0;         // player's rage meter value (0-100)
+  // New chill out choices that reduce rage
+  const chillChoices = [
+    {text: "Take deep breaths.", rageChange: -10},
+    {text: "Walk away and calm down.", rageChange: -20}
+  ];
+
+  let rage = 0; // rage goes from 0 to 200
 
   const scenarioEl = document.getElementById('scenario');
   const choicesEl = document.getElementById('choices');
   const rageMeterEl = document.getElementById('rageMeter');
   const resultEl = document.getElementById('result');
   const restartBtn = document.getElementById('restartBtn');
+  const rageEmojiEl = document.getElementById('rageEmoji');
 
-  // Generate a random scenario object with text and choices
   function generateScenario() {
-    // Pick random subject and action (avoid mismatch)
     const subj = scenarioSubjects[Math.floor(Math.random() * scenarioSubjects.length)];
     const act = scenarioActions[Math.floor(Math.random() * scenarioActions.length)];
-
-    const text = `${subj} ${act}.`;
-
-    // Clone choiceTemplates and slightly randomize rageChange a bit
-    const choices = choiceTemplates.map(choice => ({
-      text: choice.text,
-      rageChange: choice.rageChange + (Math.floor(Math.random() * 10) - 5) // ±5 variance
-    }));
-
-    return { text, choices };
+    return `${subj} ${act}.`;
   }
 
-  // Show a scenario and choices
-  function updateScenario() {
-    const scenario = generateScenario();
-    scenarioEl.textContent = scenario.text;
-    choicesEl.innerHTML = '';
-    resultEl.textContent = '';
-
-    scenario.choices.forEach(choice => {
-      const btn = document.createElement('button');
-      btn.textContent = choice.text;
-      btn.onclick = () => {
-        let rageChange = choice.rageChange;
-
-        // Add 30% chance of small rage if ignoring (rageChange == ~0)
-        if (rageChange <= 5 && Math.random() < 0.3) {
-          rageChange = 10;
-        }
-
-        rage += rageChange;
-        if (rage > 100) rage = 100;
-        if (rage < 0) rage = 0;
-
-        updateRageMeter();
-        checkRageLevel();
-        updateScenario();
-      };
-      choicesEl.appendChild(btn);
-    });
+  function getRageEmoji(r) {
+    if (r >= 200) return "💥";       // Exploded!
+    if (r >= 150) return "🤬";       // Very angry
+    if (r >= 100) return "😡";       // Angry
+    if (r >= 50) return "😠";        // Annoyed
+    return "😌";                     // Calm
   }
 
-  // Update rage meter bar width
   function updateRageMeter() {
-    rageMeterEl.style.width = rage + '%';
-    // Optional: change color based on rage level
-    if (rage < 40) {
+    const ragePercent = (rage / 200) * 100;
+    rageMeterEl.style.width = ragePercent + '%';
+
+    if (rage < 50) {
       rageMeterEl.style.backgroundColor = '#27ae60'; // green
-    } else if (rage < 75) {
+    } else if (rage < 100) {
       rageMeterEl.style.backgroundColor = '#f39c12'; // orange
+    } else if (rage < 150) {
+      rageMeterEl.style.backgroundColor = '#d35400'; // dark orange
     } else {
       rageMeterEl.style.backgroundColor = '#e74c3c'; // red
     }
   }
 
-  // Show message if rage is maxed out
-  function checkRageLevel() {
-    if (rage >= 100) {
-      resultEl.textContent = `You snapped completely! Rage level: 100%. Take a deep breath...`;
-      // Optionally disable choices temporarily or force reset
+  function updateRageEmoji() {
+    rageEmojiEl.textContent = getRageEmoji(rage);
+  }
+
+  function showScenario() {
+    if (rage >= 200) {
+      // Game over — final snap!
+      scenarioEl.textContent = "This was the last straw...";
       choicesEl.innerHTML = '';
-    } else if (rage >= 75) {
-      resultEl.textContent = `Warning! Rage is high: ${rage}%. Try to calm down!`;
+      resultEl.textContent = "💥 You lost control and killed the last person who annoyed you.";
+      restartBtn.style.display = 'block';
+      updateRageEmoji();
+      updateRageMeter();
+      return;
+    }
+
+    // Show a new scenario
+    const scenarioText = generateScenario();
+    scenarioEl.textContent = scenarioText;
+
+    // Combine chill and rage choices, shuffle order to mix them
+    let combinedChoices = [...rageChoices, ...chillChoices];
+
+    // Add small randomness to rageChange for variety (±5)
+    combinedChoices = combinedChoices.map(choice => {
+      let variation = Math.floor(Math.random() * 11) - 5; // -5 to +5
+      // But for chill choices, don't go above 0 (reduce rage), for rage choices, don't go below 0
+      if (choice.rageChange < 0) {
+        variation = Math.min(variation, 0);
+      } else if (choice.rageChange > 0) {
+        variation = Math.max(variation, 0);
+      } else {
+        variation = 0;
+      }
+      return {
+        text: choice.text,
+        rageChange: choice.rageChange + variation
+      };
+    });
+
+    // Shuffle choices
+    combinedChoices.sort(() => Math.random() - 0.5);
+
+    // Render buttons for choices
+    choicesEl.innerHTML = '';
+    combinedChoices.forEach(choice => {
+      const btn = document.createElement('button');
+      btn.textContent = choice.text;
+      btn.onclick = () => {
+        rage += choice.rageChange;
+
+        if (rage > 200) rage = 200;
+        if (rage < 0) rage = 0;
+
+        updateRageMeter();
+        updateRageEmoji();
+        showRageWarning();
+        showScenario();
+      };
+      choicesEl.appendChild(btn);
+    });
+
+    resultEl.textContent = '';
+    restartBtn.style.display = 'none';
+    updateRageEmoji();
+    updateRageMeter();
+  }
+
+  function showRageWarning() {
+    if (rage >= 150 && rage < 200) {
+      resultEl.textContent = `⚠️ Rage is dangerously high: ${rage}/200! Try to chill out!`;
+    } else if (rage >= 100) {
+      resultEl.textContent = `Warning! Rage is high: ${rage}/200. You might snap soon!`;
     } else {
       resultEl.textContent = '';
     }
   }
 
-  // Restart rage to zero but keep game going
   restartBtn.onclick = () => {
     rage = 0;
     updateRageMeter();
+    updateRageEmoji();
     resultEl.textContent = '';
-    updateScenario();
+    showScenario();
   };
 
-  // Initialize on page load
+  // Start game
   updateRageMeter();
-  updateScenario();
-  restartBtn.style.display = 'block';
+  updateRageEmoji();
+  showScenario();
+
 </script>
 
 </body>
