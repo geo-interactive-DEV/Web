@@ -84,6 +84,11 @@
             📝 View Update Log
       </a>
     </p>
+
+          <button id="achievements-btn" style="color: #00ffff; background: none; border: 2px solid #00ffff; padding: 6px 12px; border-radius: 8px; cursor: pointer;">
+        🏆 Achievements
+      </button>
+    </p>
     
     <div id="quiz-container"></div>
     <button id="next-btn" onclick="nextQuestion()" style="display:none;">Next</button>
@@ -94,6 +99,40 @@
 
   
  <script>
+
+
+       // Example achievements data (can expand or update dynamically)
+    const achievements = [
+      { id: 1, name: "First Steps", desc: "Started the quiz." },
+      { id: 2, name: "Halfway There", desc: "Reached question 3." },
+      { id: 3, name: "Quiz Master", desc: "Completed the quiz." },
+      { id: 4, name: "Perfect Score", desc: "Got all answers right." },
+    ];
+
+    // Show achievements screen and hide quiz
+    document.getElementById('achievements-btn').addEventListener('click', () => {
+      document.getElementById('quiz-screen').style.display = 'none';
+      document.getElementById('achievements-screen').style.display = 'block';
+      renderAchievements();
+    });
+
+    // Back to quiz button
+    document.getElementById('back-to-quiz-btn').addEventListener('click', () => {
+      document.getElementById('achievements-screen').style.display = 'none';
+      document.getElementById('quiz-screen').style.display = 'block';
+    });
+
+    // Render achievements list
+    function renderAchievements() {
+      const list = document.getElementById('achievements-list');
+      list.innerHTML = '';
+      achievements.forEach(ach => {
+        const li = document.createElement('li');
+        li.style.marginBottom = '12px';
+        li.innerHTML = `<strong>${ach.name}</strong><br><small>${ach.desc}</small>`;
+        list.appendChild(li);
+      });
+    }
     const questions = [
        {
         question: "Please remember, this is all just for jokes. Don’t take any of it seriously—if you do, you might need help (JK... or am I?).",
