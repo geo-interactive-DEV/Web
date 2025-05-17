@@ -25,6 +25,7 @@
       text-align: center;
     }
 
+    
     h1 {
       font-size: 2rem;
       color: #00ffff;
@@ -77,11 +78,21 @@
 <body>
   <div class="container">
     <h1>🧠 Sanity Quiz</h1>
+
+    <p style="text-align:center; margin-bottom: 20px;">
+        <a href="update_log.html" target="_blank" style="color: #00ffff; font-weight: bold; text-decoration: none; border: 2px solid #00ffff; padding: 6px 12px; border-radius: 8px;">
+            📝 View Update Log
+      </a>
+    </p>
+    
     <div id="quiz-container"></div>
     <button id="next-btn" onclick="nextQuestion()" style="display:none;">Next</button>
     <div id="result-container"></div>
   </div>
 
+
+
+  
  <script>
     const questions = [
       {
