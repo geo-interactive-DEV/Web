@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stick Figure Rage RPG</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #e0e7ff;
+    color: #222;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px #666;
+    user-select: none;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  #stickFigureCanvas {
+    display: block;
+    margin: 0 auto 20px auto;
+    background: #fefefe;
+    border-radius: 10px;
+    box-shadow: 0 0 8px #aaa;
+  }
+  #scenario {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    min-height: 60px;
+    text-align: center;
+  }
+  #choices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  button {
+    padding: 12px;
+    font-size: 1.1em;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background-color: #4c84ff;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #3a6edd;
+  }
+  #rageMeterContainer {
+    background: #ddd;
+    border-radius: 12px;
+    margin: 25px 0 20px 0;
+    height: 30px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: inset 0 0 5px #999;
+  }
+  #rageMeter {
+    background: #e74c3c;
+    width: 0%;
+    height: 100%;
+    transition: width 0.5s ease, background-color 0.5s ease;
+  }
+  #result {
+    font-weight: bold;
+    font-size: 1.3em;
+    text-align: center;
+    min-height: 40px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  #restartBtn {
+    display: none;
+    margin: 0 auto;
+    background-color: #27ae60;
+    color: white;
+    font-size: 1.1em;
+    padding: 10px 20px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Stick Figure Rage RPG</h1>
+
+<canvas id="stickFigureCanvas" width="200" height="300" aria-label="Stick figure representing your character"></canvas>
+
+<div id="scenario"></div>
+
+<div id="choices"></div>
+
+<div id="rageMeterContainer" aria-label="Rage meter">
+  <div id="rageMeter"></div>
+</div>
+
+<div id="result" role="alert" aria-live="polite"></div>
+<button id="restartBtn" aria-label="Reset the game">Reset Rage</button>
+
+<script>
+  const scenarioSubjects = [
+    "Someone is loudly", "Your friend is", "Your phone is",
+    "A coworker", "Your neighbor", "The driver behind you is",
+    "Your sibling", "Your boss", "The waiter"
+  ];
+
+  const scenarioActions = [
+    "chewing gum right next to you",
+    "late without telling you",
+    "autocorrecting everything wrong",
+    "taking the last coffee without making more",
+    "playing loud music late at night",
+    "tailgating your car aggressively",
+    "borrowing your stuff without asking",
+    "giving you extra work at the last minute",
+    "forgetting your order at the restaurant"
+  ];
+
+  const rageChoices = [
+    {text: "Stay calm, ignore it.", rageChange: 0},
+    {text: "Feel a little annoyed.", rageChange: 15},
+    {text: "Snap and yell about it!", rageChange: 45}
+  ];
+
+  const chillChoices = [
+    {text: "Take deep breaths.", rageChange: -10},
+    {text: "Walk away and calm down.", rageChange: -20}
+  ];
+
+  let rage = 0;
+
+  const scenarioEl = document.getElementById('scenario');
+  const choicesEl = document.getElementById('choices');
+  const rageMeterEl = document.getElementById('rageMeter');
+  const resultEl = document.getElementById('result');
+  const restartBtn = document.getElementById('restartBtn');
+  const canvas = document.getElementById('stickFigureCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Draw stick figure with expression based on rage
+  function drawStickFigure(rageLevel) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Body params
+    const centerX = canvas.width / 2;
+    const headY = 70;
+    const bodyStartY = 120;
+    const bodyEndY = 220;
+    const armY = 150;
+    const legY = 220;
+
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#222';
+
+    // Draw head (circle)
+    ctx.beginPath();
+    ctx.arc(centerX, headY, 40, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Draw body (line)
+    ctx.beginPath();
+    ctx.moveTo(centerX, bodyStartY);
+    ctx.lineTo(centerX, bodyEndY);
+    ctx.stroke();
+
+    // Draw arms
+    ctx.beginPath();
+    ctx.moveTo(centerX, armY);
+    ctx.lineTo(centerX - 60, armY + 40);
+    ctx.moveTo(centerX, armY);
+    ctx.lineTo(centerX + 60, armY + 40);
+    ctx.stroke();
+
+    // Draw legs
+    ctx.beginPath();
+    ctx.moveTo(centerX, legY);
+    ctx.lineTo(centerX - 50, legY + 70);
+    ctx.moveTo(centerX, legY);
+    ctx.lineTo(centerX + 50, legY + 70);
+    ctx.stroke();
+
+    // Draw face expression based on rageLevel
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#222';
+
+    // Eyes
+    ctx.beginPath();
+    if (rageLevel < 50) {
+      // Calm eyes: circles
+      ctx.arc(centerX - 15, headY - 10, 7, 0, Math.PI * 2);
+      ctx.arc(centerX + 15, headY - 10, 7, 0, Math.PI * 2);
+    } else if (rageLevel < 100) {
+      // Annoyed eyes: straight line
+      ctx.moveTo(centerX - 22, headY - 15);
+      ctx.lineTo(centerX - 8, headY - 5);
+      ctx.moveTo(centerX + 8, headY - 5);
+      ctx.lineTo(centerX + 22, headY - 15);
+    } else {
+      // Angry eyes: downward slant
+      ctx.moveTo(centerX - 25, headY - 20);
+      ctx.lineTo(centerX - 5, headY - 10);
+      ctx.moveTo(centerX + 5, headY - 10);
+      ctx.lineTo(centerX + 25, headY - 20);
+    }
+    ctx.stroke();
+
+    // Mouth
+    ctx.beginPath();
+    if (rageLevel < 50) {
+      // Smiling
+      ctx.arc(centerX, headY + 15, 20, 0, Math.PI, false);
+    } else if (rageLevel < 100) {
+      // Neutral
+      ctx.moveTo(centerX - 20, headY + 20);
+      ctx.lineTo(centerX + 20, headY + 20);
+    } else if (rageLevel < 150) {
+      // Frown
+      ctx.arc(centerX, headY + 40, 20, Math.PI, 0, false);
+    } else {
+      // Angry open mouth (like yelling)
+      ctx.moveTo(centerX - 15, headY + 15);
+      ctx.lineTo(centerX + 15, headY + 15);
+      ctx.lineTo(centerX, headY + 45);
+      ctx.closePath();
+    }
+    ctx.stroke();
+
+    // Add red "rage" lines for very high rage
+    if (rageLevel >= 150) {
+      ctx.strokeStyle = 'red';
+      ctx.lineWidth = 2;
+      for (let i = 0; i < 8; i++) {
+        let angle = (i * Math.PI / 4) - Math.PI / 8;
+        let startX = centerX + 45 * Math.cos(angle);
+        let startY = headY + 45 * Math.sin(angle);
+        let endX = centerX + 70 * Math.cos(angle);
+        let endY = headY + 70 * Math.sin(angle);
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+      }
+    }
+  }
+
+  function generateScenario() {
+    const subj = scenarioSubjects[Math.floor(Math.random() * scenarioSubjects.length)];
+    const act = scenarioActions[Math.floor(Math.random() * scenarioActions.length)];
+    return `${subj} ${act}.`;
+  }
+
+  function updateRageMeter() {
+    const ragePercent = (rage / 200) * 100;
+    rageMeterEl.style.width = ragePercent + '%';
+
+    if (rage < 50) {
+      rageMeterEl.style.backgroundColor = '#27ae60'; // green
+    } else if (rage < 100) {
+      rageMeterEl.style.backgroundColor = '#f39c12'; // orange
+    } else if (rage < 150) {
+      rageMeterEl.style.backgroundColor = '#d35400'; // dark orange
+    } else {
+      rageMeterEl.style.backgroundColor = '#e74c3c'; // red
+    }
+  }
+
+  function showScenario() {
+    if (rage >= 200) {
+      scenarioEl.textContent = "This was the last straw...";
+      choicesEl.innerHTML = '';
+      resultEl.textContent = "💥 You snapped completely and lost control!";
+      restartBtn.style.display = 'block';
+      drawStickFigure(rage);
+      updateRageMeter();
+      return;
+    }
+
+    const scenarioText = generateScenario();
+    scenarioEl.textContent = scenarioText;
+
+    // Mix choices and shuffle
+    let combinedChoices = [...rageChoices, ...chillChoices];
+
+    combinedChoices = combinedChoices.map(choice => {
+      let variation = Math.floor(Math.random() * 11) - 5;
+      if (choice.rageChange < 0) {
+        variation = Math.min(variation, 0);
+      } else if (choice.rageChange > 0) {
+        variation = Math.max(variation, 0);
+      } else {
+        variation = 0;
+      }
+      return {
+        text: choice.text,
+        rageChange: choice.rageChange + variation
+      };
+    });
+
+    combinedChoices.sort(() => Math.random() - 0.5);
+
+    choicesEl.innerHTML = '';
+    combinedChoices.forEach(choice => {
+      const btn = document.createElement('button');
+      btn.textContent = choice.text;
+      btn.onclick = () => {
+        rage += choice.rageChange;
+        if (rage > 200) rage = 200;
+        if (rage < 0) rage = 0;
+        updateRageMeter();
+        showRageWarning();
+        drawStickFigure(rage);
+        showScenario();
+      };
+      choicesEl.appendChild(btn);
+    });
+
+    resultEl.textContent = '';
+    restartBtn.style.display = 'none';
+    drawStickFigure(rage);
+  }
+
+  function showRageWarning() {
+    if (rage >= 150 && rage < 200) {
+      resultEl.textContent = `⚠️ Rage is dangerously high: ${rage}/200! Try to calm down!`;
+    } else if (rage >= 100) {
+      resultEl.textContent = `Warning! Rage is high: ${rage}/200. You might snap soon!`;
+    } else {
+      resultEl.textContent = '';
+    }
+  }
+
+  restartBtn.onclick = () => {
+    rage = 0;
+    updateRageMeter();
+    drawStickFigure(rage);
+    resultEl.textContent = '';
+    showScenario();
+  };
+
+  // Init
+  updateRageMeter();
+  drawStickFigure(rage);
+  showScenario();
+</script>
+
+</body>
+</html>
