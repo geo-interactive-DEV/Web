@@ -95,6 +95,15 @@
   
  <script>
     const questions = [
+       {
+        question: "Please remember, this is all just for jokes. Don’t take any of it seriously—if you do, you might need help (JK... or am I?).",
+        answers: [
+          { text: "All jokes, got it! I’m sane. 😎", damage: 0 },
+          { text: "Wait… should I be worried? 🤨", damage: 10 },
+          { text: "I might need some help… (JK!) 😅", damage: 20 },
+          { text: "Help! My sanity’s slipping! (Or am I?) 🤯", damage: 30 }
+        ]
+      },
       {
         question: "You hear a voice calling your name in an empty room. What do you do?",
         answers: [
@@ -223,19 +232,72 @@
       const resultContainer = document.getElementById("result-container");
       document.getElementById("quiz-container").innerHTML = "";
       document.getElementById("next-btn").style.display = "none";
+let message = "";
 
-      let message = "";
-      if (sanity > 80) {
-        message = "🧠 100% Sane – You're as normal as it gets… suspiciously so.";
-      } else if (sanity > 60) {
-        message = "😐 Slightly Strange – You're mostly sane, but we see a flicker.";
-      } else if (sanity > 40) {
-        message = "🤪 Off the Rails – You dance on the edge of madness.";
-      } else if (sanity > 20) {
-        message = "😵 Reality Bender – The laws of logic don't apply to you.";
-      } else {
-        message = "👽 Fully Bonkers – You are one with the chaos. Welcome home.";
-      }
+if (sanity > 90) {
+  message = "🧠 100% Sane – You’re as normal as it gets… suspiciously so. No help needed here!";
+} else if (sanity > 80) {
+  message = "🙂 Mostly Sane – Just enough weird to keep life interesting. Keep an eye on that quirky side.";
+} else if (sanity > 70) {
+  message = "😐 Slightly Strange – A flicker of oddity shows up. Maybe chat with a friend soon?";
+} else if (sanity > 60) {
+  message = "😅 Getting Quirky – You might start talking to your toaster. A little help wouldn’t hurt.";
+} else if (sanity > 50) {
+  message = "🤪 Off the Rails – You dance on the edge of madness. Definitely time to consider help.";
+} else if (sanity > 40) {
+  message = "😵 Reality Bender – The laws of logic don’t apply to you. Professional help recommended.";
+} else if (sanity > 30) {
+  message = "😵‍💫 Almost Alien – Aliens called. They want their reality back. Please seek help!";
+} else if (sanity > 20) {
+  message = "👽 Fully Bonkers – You’re the CEO of Chaos Inc. Help is strongly advised.";
+} else if (sanity > 10) {
+  message = "☠️ Beyond Repair – Send help (and snacks). You need help, seriously.";
+} else if (sanity >= 0) {
+  message = "💀 Deep in the Abyss – You’re talking to shadows, aren’t you? Help is overdue.";
+} else if (sanity > -10) {
+  message = "👻 Ghost Mode Activated – You haunt your own mind. You NEED help now.";
+} else if (sanity > -20) {
+  message = "🧟‍♂️ Zombie Status – Brain function critically low, but snacks still accepted. Help NOW!";
+} else if (sanity > -30) {
+  message = "🕷️ Web of Madness – Tangled deep in your thoughts. Professional intervention needed.";
+} else if (sanity > -40) {
+  message = "👹 Demon Dance – Your demons have started a conga line. Time to call backup.";
+} else if (sanity > -50) {
+  message = "🌪️ Tornado Mind – Everything’s spinning out of control. Emergency help required.";
+} else if (sanity > -60) {
+  message = "🦇 Bat Signal – Your mind’s sending distress signals. Get help before it’s too late.";
+} else if (sanity > -70) {
+  message = "🧛 Nightwalker – You’ve crossed into the twilight zone. Medical attention needed.";
+} else if (sanity > -80) {
+  message = "⚰️ Grave Thoughts – You’re flirting with darkness. Professional help is urgent.";
+} else if (sanity > -90) {
+  message = "🕸️ Caught in the Web – Stuck in mental quicksand. Call for rescue immediately.";
+} else if (sanity > -100) {
+  message = "🌌 Lost in the Void – Reality left without you. You ARE the void now.";
+} else if (sanity > -110) {
+  message = "💀 Skullcrusher – Your sanity’s cracked open. Only extreme help can fix this.";
+} else if (sanity > -120) {
+  message = "☠️ Death Spiral – Spinning out with no end in sight. Emergency intervention needed.";
+} else if (sanity > -130) {
+  message = "🧙‍♂️ Mad Wizard – You’re casting spells on yourself. Wizardry school or therapy?";
+} else if (sanity > -140) {
+  message = "👾 Glitch in the Matrix – Your mind’s buffering. Reboot recommended ASAP.";
+} else if (sanity > -150) {
+  message = "🤡 Circus of Madness – You’re the main clown in this tragicomedy. Help, please.";
+} else if (sanity > -160) {
+  message = "🧟‍♀️ Walking Disaster – Danger to yourself and others. Professional help mandatory.";
+} else if (sanity > -170) {
+  message = "🌪️ Mental Tornado – Everything’s chaos and debris. Call the cleanup crew now.";
+} else if (sanity > -180) {
+  message = "🕵️‍♂️ Lost Detective – You can’t find your own mind. Therapy urgently needed.";
+} else if (sanity > -190) {
+  message = "🌑 Total Eclipse – Darkness has swallowed your reason. Emergency help, no joke.";
+} else if (sanity > -200) {
+  message = "👻 Ghost in the Machine – You ARE the haunting now. Immediate professional help required. (Just for jokes)";
+} else {
+  message = "🕳️ You are ###### – Help? What help? You ARE the help... or the problem.";
+}
+
 
       resultContainer.innerHTML = `
         <p>Your final sanity: <strong>${sanity}%</strong></p>
