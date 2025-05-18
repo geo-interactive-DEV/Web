@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RMW5TDMMY6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RMW5TDMMY6');
+</script>
+  
+  <meta charset="UTF-8">
+  <title>Sanity Quiz</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #00ffff;
+    }
+
+    .question {
+      margin: 20px 0;
+      font-size: 1.2rem;
+    }
+
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .answers button {
+      background: #333;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .answers button:hover {
+      background: #00ffff;
+      color: black;
+    }
+
+    #next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #00ffff;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #result-container {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      color: #ff66cc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧠 Sanity Quiz</h1>
+
+    <p style="text-align:center; margin-bottom: 20px;">
+      <a href="sanity_quiz_update_log.html" target="_blank" style="color: #00ffff; font-weight: bold; text-decoration: none; border: 2px solid #00ffff; padding: 6px 12px; border-radius: 8px;">
+        📝 View Update Log
+      </a>
+    </p>
+
+    <button id="achievements-btn" style="color: #00ffff; background: none; border: 2px solid #00ffff; padding: 6px 12px; border-radius: 8px; cursor: pointer;" onclick="showAchievements()">
+      🏆 Achievements
+    </button>
+
+    <div id="quiz-container"></div>
+    <button id="next-btn" onclick="nextQuestion()" style="display:none;">Next</button>
+    <div id="result-container"></div>
+  </div>
+
+<script>
+const achievements = [
+  {
+    tag: "glowing mushrooms",
+    name: "Mushroom Seeker",
+    description: "You followed the glow into the unknown."
+  },
+  {
+    tag: "your own thoughts",
+    name: "Deep Thinker",
+    description: "You snacked on your own thoughts. Yikes."
+  },
+  {
+    tag: "banana",
+    name: "Fruit Loop",
+    description: "You see numbers as bananas. That's... something."
+  },
+  {
+    tag: "your mirror self",
+    name: "Mirror Mirror",
+    description: "You faced your reflection. Bold move."
+  }
+];
+
+const questions = [
+  {
+    question: "Please remember, this is all just for jokes...",
+    answers: [
+      { text: "All jokes got it.", damage: 0 },
+      { text: "Wait should I be worried?", damage: 10 },
+      { text: "I will take it all seriously (JK!)", damage: 20 },
+      { text: "I will take it all seriously no joke.", damage: 30 }
+    ]
+  },
+  {
+    question: "You hear a voice calling your name in an empty room...",
+    answers: [
+      { text: "Investigate cautiously", damage: 5 },
+      { text: "Call out: 'Who's there?'", damage: 10 },
+      { text: "Run screaming", damage: 20 },
+      { text: "Answer it calmly", damage: 30 }
+    ]
+  },
+  {
+    question: "Pick a snack:",
+    answers: [
+      { text: "Cookies", damage: 0 },
+      { text: "Raw onion", damage: 15 },
+      { text: "Air", damage: 25 },
+      { text: "Your own thoughts", damage: 40, tag: "your own thoughts" }
+    ]
+  },
+  {
+    question: "What color is the number 7?",
+    answers: [
+      { text: "It has no color", damage: 0 },
+      { text: "Green", damage: 10 },
+      { text: "Purple, and it sings", damage: 30 },
+      { text: "Banana", damage: 50, tag: "banana" }
+    ]
+  },
+  {
+    question: "Which of these animals would you trust with your secrets?",
+    answers: [
+      { text: "Dog", damage: 0 },
+      { text: "Crow", damage: 10 },
+      { text: "Toaster", damage: 30 },
+      { text: "Your mirror self", damage: 50, tag: "your mirror self" }
+    ]
+  },
+  {
+    question: "You wake up and everyone speaks in reverse...",
+    answers: [
+      { text: "Panic!", damage: 20 },
+      { text: "Go along with it", damage: 30 },
+      { text: "Try to learn their language", damage: 15 },
+      { text: "This is fine", damage: 40 }
+    ]
+  },
+  {
+    question: "You find a mysterious key on the floor...",
+    answers: [
+      { text: "Pick it up carefully", damage: 5 },
+      { text: "Ignore it", damage: 0 },
+      { text: "Throw it away", damage: 15 },
+      { text: "Use it immediately", damage: 35 }
+    ]
+  },
+  {
+    question: "Choose a path through a dark forest:",
+    answers: [
+      { text: "Follow the glowing mushrooms", damage: 10, tag: "glowing mushrooms" },
+      { text: "Take the twisted root trail", damage: 20 },
+      { text: "Climb a tree to scout ahead", damage: 25 },
+      { text: "Stay put and wait for help", damage: 5 }
+    ]
+  },
+  {
+    question: "Your reflection starts talking to you...",
+    answers: [
+      { text: "Ask what it wants", damage: 10 },
+      { text: "Run away", damage: 30 },
+      { text: "Ignore it", damage: 5 },
+      { text: "Have a conversation", damage: 20 }
+    ]
+  },
+  {
+    question: "You find a door that wasn't there before...",
+    answers: [
+      { text: "Open it slowly", damage: 10 },
+      { text: "Knock first", damage: 5 },
+      { text: "Walk away quickly", damage: 20 },
+      { text: "Kick it down", damage: 35 }
+    ]
+  },
+  {
+    question: "If time suddenly stopped, what would you do?",
+    answers: [
+      { text: "Explore freely", damage: 15 },
+      { text: "Try to fix time", damage: 10 },
+      { text: "Panic and wait", damage: 25 },
+      { text: "Enjoy the silence", damage: 5 }
+    ]
+  }
+];
+
+let currentQuestion = 0;
+let sanity = 100;
+let unlockedTags = [];
+
+function showQuestion() {
+  const q = questions[currentQuestion];
+  const quizContainer = document.getElementById("quiz-container");
+  quizContainer.innerHTML = `
+    <div class="question">${q.question}</div>
+    <div class="answers">
+      ${q.answers.map((a, i) => 
+        `<button onclick="selectAnswer(${a.damage}, '${a.tag || ''}')">${a.text}</button>`
+      ).join('')}
+    </div>
+  `;
+  document.getElementById("next-btn").style.display = "none";
+}
+
+function selectAnswer(damage, tag) {
+  sanity -= damage;
+  if (tag && !unlockedTags.includes(tag)) {
+    unlockedTags.push(tag);
+  }
+  document.getElementById("next-btn").style.display = "inline-block";
+  const buttons = document.querySelectorAll(".answers button");
+  buttons.forEach(btn => btn.disabled = true);
+}
+
+function nextQuestion() {
+  currentQuestion++;
+  if (currentQuestion < questions.length) {
+    showQuestion();
+  } else {
+    endQuiz();
+  }
+}
+
+function endQuiz() {
+  let result = `Final Sanity: ${sanity}/100<br>`;
+  if (sanity >= 80) result += "🧘 You're super chill. Almost too chill.";
+  else if (sanity >= 50) result += "😵‍💫 You're a little off, but we like that.";
+  else if (sanity >= 20) result += "🤯 You're spiraling. Seek snacks immediately.";
+  else result += "👻 You're one with the void now. Good luck!";
+
+  const unlocked = achievements.filter(a => unlockedTags.includes(a.tag));
+  if (unlocked.length > 0) {
+    result += "<br><br><strong>Unlocked Achievements:</strong><ul>";
+    unlocked.forEach(a => {
+      result += `<li><strong>${a.name}:</strong> ${a.description}</li>`;
+    });
+    result += "</ul>";
+  }
+
+  document.getElementById("quiz-container").innerHTML = "";
+  document.getElementById("next-btn").style.display = "none";
+  document.getElementById("result-container").innerHTML = result;
+}
+
+function showAchievements() {
+  let html = "<strong>All Achievements:</strong><ul>";
+  achievements.forEach(a => {
+    const unlocked = unlockedTags.includes(a.tag);
+    html += `<li><strong>${a.name}</strong>: ${a.description} ${unlocked ? "✅" : "❌"}</li>`;
+  });
+  html += "</ul>";
+  document.getElementById("result-container").innerHTML = html;
+}
+
+window.onload = showQuestion;
+
+</script>
+</body>
+</html>
