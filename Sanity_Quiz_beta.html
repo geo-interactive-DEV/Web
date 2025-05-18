@@ -11,7 +11,7 @@
   gtag('config', 'G-RMW5TDMMY6');
 </script>
   
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Sanity Quiz</title>
   <style>
     body {
@@ -81,6 +81,7 @@
       margin-top: 20px;
       font-size: 1.3rem;
       color: #ff66cc;
+      white-space: pre-line;
     }
   </style>
 </head>
@@ -231,7 +232,9 @@ const questions = [
 
 let currentQuestion = 0;
 let sanity = 100;
-let unlockedTags = [];
+
+// Load unlocked tags from localStorage or empty array
+let unlockedTags = JSON.parse(localStorage.getItem('unlockedTags')) || [];
 
 function showQuestion() {
   const q = questions[currentQuestion];
@@ -245,12 +248,15 @@ function showQuestion() {
     </div>
   `;
   document.getElementById("next-btn").style.display = "none";
+  document.getElementById("result-container").innerHTML = "";
 }
 
 function selectAnswer(damage, tag) {
   sanity -= damage;
   if (tag && !unlockedTags.includes(tag)) {
     unlockedTags.push(tag);
+    // Save achievements to localStorage
+    localStorage.setItem('unlockedTags', JSON.stringify(unlockedTags));
   }
   document.getElementById("next-btn").style.display = "inline-block";
   const buttons = document.querySelectorAll(".answers button");
@@ -267,24 +273,25 @@ function nextQuestion() {
 }
 
 function endQuiz() {
-  let result = `Final Sanity: ${sanity}/100<br>`;
-  if (sanity >= 80) result += "🧘 You're super chill. Almost too chill.";
-  else if (sanity >= 50) result += "😵‍💫 You're a little off, but we like that.";
-  else if (sanity >= 20) result += "🤯 You're spiraling. Seek snacks immediately.";
-  else result += "👻 You're one with the void now. Good luck!";
+  let result = `Final Sanity: ${sanity}/100\n\n`;
+  if (sanity >= 80) result += "You are mostly sane! 🧠✨";
+  else if (sanity >= 50) result += "A little off, but still going. 🤪";
+  else if (sanity >= 20) result += "Sanity is slipping... 🥴";
+  else result += "You have lost your mind! 😵‍💫";
 
-  const unlocked = achievements.filter(a => unlockedTags.includes(a.tag));
-  if (unlocked.length > 0) {
-    result += "<br><br><strong>Unlocked Achievements:</strong><ul>";
-    unlocked.forEach(a => {
-      result += `<li><strong>${a.name}:</strong> ${a.description}</li>`;
-    });
-    result += "</ul>";
+  // Show unlocked achievements at the end too
+  if (unlockedTags.length) {
+    result += "\n\nAchievements unlocked:\n" + unlockedTags.map(tag => {
+      const a = achievements.find(ac => ac.tag === tag);
+      return a ? `✔ ${a.name}: ${a.description}` : "";
+    }).join("\n");
+  } else {
+    result += "\n\nNo achievements unlocked yet.";
   }
 
   document.getElementById("quiz-container").innerHTML = "";
   document.getElementById("next-btn").style.display = "none";
-  document.getElementById("result-container").innerHTML = result;
+  document.getElementById("result-container").innerText = result;
 }
 
 function showAchievements() {
@@ -296,8 +303,8 @@ function showAchievements() {
   html += "</ul>";
   document.getElementById("result-container").innerHTML = html;
 }
-
-window.onload = showQuestion;
+  // Start quiz
+showQuestion();
 
 </script>
 </body>
