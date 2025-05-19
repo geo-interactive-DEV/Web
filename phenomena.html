@@ -1,118 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Veil Directive - Veiled Phenomena</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #121212;
-      color: #ddd;
-      margin: 0;
-      padding: 1rem 2rem;
-    }
-    h1, h2 {
-      color: #5dade2;
-      margin-bottom: 0.5rem;
-    }
-    section {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .vp-entry {
-      background: #222;
-      margin: 0.8rem 0;
-      padding: 1rem;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 0 8px #244d7f88;
-      transition: background 0.3s ease;
-    }
-    .vp-entry:hover {
-      background: #2a2a2a;
-    }
-    .vp-info {
-      flex: 1;
-    }
-    button {
-      background: #5dade2;
-      border: none;
-      color: #121212;
-      padding: 0.5rem 1rem;
-      font-weight: 700;
-      font-size: 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    button:hover {
-      background: #7fb9f4;
-    }
-    nav {
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    nav a {
-      text-decoration: none;
-      color: #5dade2;
-      margin: 0 1rem;
-      font-weight: 600;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Veiled Phenomena | The Veil Directive</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <nav class="navbar">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="phenomena.html" class="active">Veiled Phenomena</a></li>
+      <li><a href="organization.html">Organization</a></li>
+      <li><a href="security.html">Security Classes</a></li>
+      <li><a href="characters.html">Characters</a></li>
+    </ul>
+  </nav>
 
-<nav>
-  <a href="index.html">Veil Directive</a> |
-  <a href="phenomena.html">Veiled Phenomena</a> |
-  <a href="organization.html">Organization</a> |
-  <a href="security.html">Security Classifications</a> |
-  <a href="characters.html">Notable Characters</a>
-</nav>
+  <header>
+    <h1>Veiled Phenomena</h1>
+    <p>Catalog of documented anomalies and phenomena under Directive jurisdiction.</p>
+  </header>
 
-<section>
-  <h1>Veiled Phenomena</h1>
-  <p>Click on any phenomenon below to learn more.</p>
-
-  <div class="vp-entry">
-    <div class="vp-info">
-      <strong>VP-008:</strong> The Smiling Fog<br />
-      <small>Type: Atmospheric anomaly</small>
+  <main class="phenomena-grid">
+    <div class="phenomenon-card" onclick="location.href='vp008.html'">
+      <h3>VP-008: The Smiling Fog</h3>
+      <p>An atmospheric entity that whispers names and consumes memory.</p>
     </div>
-    <button onclick="location.href='vp-008.html'">View Details</button>
-  </div>
-
-  <div class="vp-entry">
-    <div class="vp-info">
-      <strong>VP-107:</strong> Mr. Forget<br />
-      <small>Type: Humanoid anomaly</small>
+    <div class="phenomenon-card" onclick="location.href='vp182.html'">
+      <h3>VP-182: The Mirror Sisters</h3>
+      <p>Two children with no connection. Yet, something mirrors between them…</p>
     </div>
-    <button onclick="location.href='vp-107.html'">View Details</button>
-  </div>
+    <!-- Add more cards here -->
+  </main>
 
-  <div class="vp-entry">
-    <div class="vp-info">
-      <strong>VP-182:</strong> The Mirror Sisters<br />
-      <small>Type: Humanoid Anomalies (Two Separate Individuals)</small>
-    </div>
-    <button onclick="location.href='vp-182.html'">View Details</button>
-  </div>
-
-  <div class="vp-entry">
-    <div class="vp-info">
-      <strong>VP-382:</strong> The Wound That Dreams<br />
-      <small>Type: Spatial anomaly</small>
-    </div>
-    <button onclick="location.href='vp-382.html'">View Details</button>
-  </div>
-
-</section>
-
+  <footer class="site-footer">
+    <p>&copy; 2025 The Veil Directive | All rights reserved.</p>
+  </footer>
 </body>
 </html>
