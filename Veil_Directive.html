@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Veil Directive</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+  /* Reset & basics */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    background: #111214;
+    color: #ddd;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+  }
+  a {
+    color: #72a4c5;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+
+  header {
+    background: #0b0c0d;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #222;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header h1 {
+    font-weight: 600;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    margin: 0;
+  }
+  nav {
+    margin-top: 0.5rem;
+  }
+  nav a {
+    margin-right: 1.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  nav a:last-child {
+    margin-right: 0;
+  }
+
+  main {
+    max-width: 900px;
+    margin: 2rem auto 3rem;
+    padding: 0 1rem;
+  }
+  section {
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #222;
+  }
+  section:last-child {
+    border-bottom: none;
+  }
+  h2 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    border-left: 5px solid #72a4c5;
+    padding-left: 0.75rem;
+    margin-bottom: 1rem;
+    color: #72a4c5;
+  }
+  h3 {
+    font-weight: 600;
+    color: #a0b9d9;
+    margin-top: 1rem;
+  }
+  p, li {
+    font-weight: 300;
+    font-size: 1rem;
+    margin: 0.35rem 0 0.7rem;
+  }
+  ul {
+    padding-left: 1.25rem;
+  }
+  ul li {
+    margin-bottom: 0.4rem;
+  }
+  .motto {
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-top: 0.3rem;
+    color: #a0b9d9;
+  }
+  .phenomena-code {
+    font-weight: 600;
+    color: #c792ea;
+  }
+  .classification {
+    display: inline-block;
+    margin-right: 1rem;
+    font-weight: 600;
+  }
+  .class-theta { color: #4caf50; }
+  .class-omicron { color: #ffb300; }
+  .class-delta { color: #e53935; }
+  .class-epsilon { color: #7c4dff; }
+
+  footer {
+    text-align: center;
+    padding: 2rem 1rem 1rem;
+    font-size: 0.9rem;
+    color: #444;
+    border-top: 1px solid #222;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>The Veil Directive</h1>
+  <nav>
+    <a href="#overview">Overview</a>
+    <a href="#organization">Organization</a>
+    <a href="#phenomena">Veiled Phenomena</a>
+    <a href="#security">Security Classes</a>
+    <a href="#characters">Notable Figures</a>
+    <a href="#additional">Additional</a>
+  </nav>
+</header>
+
+<main>
+  <section id="overview">
+    <h2>World Concept: The Veil Directive</h2>
+    <p>The world appears normal to the average person. But behind the scenes, a clandestine organization known as <strong>The Veil Directive (TVD)</strong> safeguards humanity from threats that defy natural law: artifacts, creatures, locations, and events known as <em>"Veiled Phenomena."</em></p>
+    <p class="motto">"Seal the breach. Study the unknown. Shield the world."</p>
+  </section>
+
+  <section id="organization">
+    <h2>The Organization</h2>
+    <p><strong>The Veil Directive (TVD)</strong><br />
+    Founded: 1931, after a global event codenamed <em>The Whisperstorm.</em></p>
+    <p><strong>Headquarters:</strong> Shifts locations every 13 years to avoid detection.</p>
+    <h3>Structure</h3>
+    <ul>
+      <li><strong>Containment Division:</strong> Secures and monitors phenomena.</li>
+      <li><strong>Research Division:</strong> Studies phenomena to extract knowledge.</li>
+      <li><strong>Null Response Teams:</strong> Armed units for high-threat incidents.</li>
+      <li><strong>Memory Division:</strong> Wipes or alters memories of witnesses.</li>
+      <li><strong>The Overseers (Council V):</strong> Five masked figures who govern TVD.</li>
+    </ul>
+  </section>
+
+  <section id="phenomena">
+    <h2>Sample Veiled Phenomena</h2>
+    <article>
+      <h3><span class="phenomena-code">VP-008:</span> The Smiling Fog</h3>
+      <p><strong>Type:</strong> Atmospheric anomaly</p>
+      <p><strong>Appearance:</strong> Thick fog that whispers the names of loved ones.</p>
+      <p><strong>Effect:</strong> Victims are lured into it and vanish, never found.</p>
+      <p><strong>Containment:</strong> A 10km no-entry zone established in northern Scotland, guarded under the guise of military training grounds.</p>
+    </article>
+    <article>
+      <h3><span class="phenomena-code">VP-107:</span> Mr. Forget</h3>
+      <p><strong>Type:</strong> Humanoid anomaly</p>
+      <p><strong>Description:</strong> Appears as a normal man. Cannot be remembered after direct contact.</p>
+      <p><strong>Effect:</strong> Anyone who talks to him forgets his existence after 30 seconds.</p>
+      <p><strong>Use:</strong> Employed by TVD for covert messaging. He voluntarily works for them, but no one remembers why.</p>
+    </article>
+    <article>
+      <h3><span class="phenomena-code">VP-382:</span> The Wound That Dreams</h3>
+      <p><strong>Type:</strong> Spatial anomaly</p>
+      <p><strong>Location:</strong> Beneath an abandoned asylum in Italy.</p>
+      <p><strong>Effect:</strong> A hole that leads to a dream dimension. Entities within try to escape into our world.</p>
+      <p><strong>Containment:</strong> Surrounding structure sealed with reinforced dream-barriers developed by the Research Division.</p>
+    </article>
+  </section>
+
+  <section id="security">
+    <h2>Security Classifications</h2>
+    <p><span class="classification class-theta">Class Theta</span>– Harmless or understood.</p>
+    <p><span class="classification class-omicron">Class Omicron</span> – Potentially dangerous, but stable.</p>
+    <p><span class="classification class-delta">Class Delta</span> – Active threat to public safety.</p>
+    <p><span class="classification class-epsilon">Class Epsilon</span> – Uncontainable, reality-altering, or godlike.</p>
+  </section>
+
+  <section id="characters">
+    <h2>Notable Characters</h2>
+    <ul>
+      <li><strong>Dr. Keira Voss</strong> – Head of Experimental Anomalies. Allegedly has modified her own memories dozens of times.</li>
+      <li><strong>Agent Locke</strong> – Lead Null Response commander. Rumored to have survived direct exposure to VP-001.</li>
+      <li><strong>The Oracle</strong> – A child anomaly who speaks only in future-tense and never lies.</li>
+    </ul>
+  </section>
+
+  <section id="additional">
+    <h2>Additional Elements</h2>
+    <ul>
+      <li><strong>The Bleed:</strong> A mysterious effect where parts of reality begin to "bleed" into other dimensions.</li>
+      <li><strong>Public Front:</strong> TVD operates publicly as “The Veil Foundation,” a disaster relief NGO.</li>
+      <li><strong>Rival Groups:</strong> Rogue scientists, cults worshipping anomalies, and a group called “The Unshackled” trying to expose the truth.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 The Veil Directive. All rights reserved.
+</footer>
+
+</body>
+</html>
