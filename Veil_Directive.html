@@ -1,102 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Veil Directive - Overview</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
-  *, *::before, *::after { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: #111214;
-    color: #ddd;
-    font-family: 'Montserrat', sans-serif;
-    line-height: 1.6;
-  }
-  a {
-    color: #72a4c5;
-    text-decoration: none;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
-  header {
-    background: #0b0c0d;
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid #222;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  nav {
-    display: flex;
-    gap: 1.5rem;
-  }
-  nav a {
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-  }
-  main {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-  }
-  h1 {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-  h2 {
-    color: #72a4c5;
-    margin-top: 2rem;
-    font-weight: 600;
-  }
-  footer {
-    background: #0b0c0d;
-    text-align: center;
-    padding: 1rem;
-    font-size: 0.85rem;
-    border-top: 1px solid #222;
-    margin-top: 3rem;
-    color: #666;
-  }
-  .motto {
-    font-style: italic;
-    font-weight: 300;
-    margin-top: 0.5rem;
-    color: #a0a0a0;
-  }
-  .icon {
-    font-size: 1.4rem;
-    margin-right: 0.3rem;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Veil Directive - Guardians of the Unknown</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+    :root {
+      --primary-color: #5dade2;
+      --accent-color: #2874a6;
+      --background-dark: #0f1217;
+      --background-darker: #090b0f;
+      --text-light: #e0e6f1;
+      --text-muted: #a0a8b9;
+      --shadow-glow: rgba(92, 157, 210, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--background-dark);
+      color: var(--text-light);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      overflow-x: hidden;
+    }
+
+    header {
+      width: 100%;
+      max-width: 960px;
+      margin-bottom: 3rem;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      color: var(--primary-color);
+      letter-spacing: 2px;
+      text-shadow: 0 0 12px var(--shadow-glow);
+      margin-bottom: 0.2rem;
+      animation: fadeInDown 1s ease forwards;
+      opacity: 0;
+    }
+
+    header p.subtitle {
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      animation: fadeInUp 1s ease forwards;
+      animation-delay: 0.5s;
+      opacity: 0;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.5rem 1.2rem;
+      border: 2px solid transparent;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px transparent;
+    }
+
+    nav a:hover, nav a:focus {
+      background: var(--primary-color);
+      color: var(--background-dark);
+      box-shadow: 0 0 20px var(--primary-color);
+      border-color: var(--primary-color);
+      outline: none;
+    }
+
+    main {
+      max-width: 960px;
+      width: 100%;
+      background: var(--background-darker);
+      padding: 2rem 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 0 25px #184d8f88;
+      animation: fadeIn 1.2s ease forwards;
+      opacity: 0;
+    }
+
+    main h2 {
+      color: var(--primary-color);
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.3rem;
+      letter-spacing: 1px;
+    }
+
+    main p {
+      margin-bottom: 1.3rem;
+      font-size: 1.1rem;
+    }
+
+    main blockquote {
+      font-style: italic;
+      font-size: 1.25rem;
+      border-left: 4px solid var(--accent-color);
+      margin: 1.5rem 0;
+      padding-left: 1rem;
+      color: var(--accent-color);
+      user-select: none;
+    }
+
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: #18243b;
+      border-radius: 12px;
+      padding: 1.5rem 1.8rem;
+      box-shadow: 0 0 15px #214c81bb;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 25px #5dade2cc;
+    }
+
+    .card h3 {
+      color: var(--primary-color);
+      margin-bottom: 0.7rem;
+      font-size: 1.3rem;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding: 1rem 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-align: center;
+      width: 100%;
+      max-width: 960px;
+    }
+
+    @keyframes fadeInDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2.2rem;
+      }
+      main h2 {
+        font-size: 1.6rem;
+      }
+      nav a {
+        font-size: 1rem;
+        padding: 0.4rem 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <header>
-  <nav>
-    <a href="Veil_Directive.html">Home</a>
-    <a href="organization.html">Organization</a>
-    <a href="phenomena.html">Veiled Phenomena</a>
-    <a href="security.html">Security</a>
-    <a href="characters.html">Characters</a>
-    <a href="additional.html">Additional</a>
-  </nav>
+  <h1>The Veil Directive</h1>
+  <p class="subtitle">"Seal the breach. Study the unknown. Shield the world."</p>
 </header>
 
-<main>
-  <h1>🌍 The Veil Directive</h1>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="phenomena.html">Veiled Phenomena</a>
+  <a href="organization.html">Organization</a>
+  <a href="security.html">Security Classifications</a>
+  <a href="characters.html">Notable Characters</a>
+</nav>
 
-  <p><strong>Overview:</strong></p>
-  <p>The world appears normal to the average person. But behind the scenes, a clandestine organization known as The Veil Directive (TVD) safeguards humanity from threats that defy natural law: artifacts, creatures, locations, and events known as <strong>"Veiled Phenomena."</strong></p>
-  
-  <p class="motto">"Seal the breach. Study the unknown. Shield the world."</p>
+<main>
+  <h2>Overview</h2>
+  <p>The world appears normal to the average person. But behind the scenes, a clandestine organization known as <strong>The Veil Directive (TVD)</strong> safeguards humanity from threats that defy natural law — artifacts, creatures, locations, and events known as <em>"Veiled Phenomena."</em></p>
+
+  <blockquote>Seal the breach. Study the unknown. Shield the world.</blockquote>
+
+  <h2>The Organization</h2>
+  <p>Founded in 1931 following the global event codenamed <strong>The Whisperstorm</strong>, The Veil Directive operates from shifting headquarters every 13 years to avoid detection. Its structure includes divisions focused on containment, research, armed response, and memory alteration, governed by The Overseers—five masked figures with ultimate authority.</p>
+
+  <h2>Featured Veiled Phenomena</h2>
+  <div class="cards-container">
+    <div class="card" onclick="location.href='vp008.html';" tabindex="0" role="button" aria-pressed="false">
+      <h3>VP-008: The Smiling Fog</h3>
+      <p>An atmospheric anomaly that whispers the names of loved ones. Victims vanish after entering its thick fog.</p>
+    </div>
+    <div class="card" onclick="location.href='vp107.html';" tabindex="0" role="button" aria-pressed="false">
+      <h3>VP-107: Mr. Forget</h3>
+      <p>A humanoid who cannot be remembered after contact. Used by TVD for covert messaging.</p>
+    </div>
+    <div class="card" onclick="location.href='vp382.html';" tabindex="0" role="button" aria-pressed="false">
+      <h3>VP-382: The Wound That Dreams</h3>
+      <p>A spatial anomaly beneath an abandoned asylum, leading to a dream dimension filled with dangerous entities.</p>
+    </div>
+    <div class="card" onclick="location.href='vp182.html';" tabindex="0" role="button" aria-pressed="false">
+      <h3>VP-182: The Mirror Sisters</h3>
+      <p>Two humanoid anomalies sharing an unexplained bond and granted unique freedoms within TVD.</p>
+    </div>
+  </div>
+
 </main>
 
 <footer>
-  &copy; 2025 The Veil Directive. All rights reserved.
+  &copy; 2025 The Veil Directive | All rights reserved.
 </footer>
 
 </body>
