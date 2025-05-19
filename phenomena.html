@@ -1,122 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Veil Directive - Veiled Phenomena</title>
-<style>
-  /* Same styles as before */
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
-  *, *::before, *::after { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: #111214;
-    color: #ddd;
-    font-family: 'Montserrat', sans-serif;
-    line-height: 1.6;
-  }
-  a {
-    color: #72a4c5;
-    text-decoration: none;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
-  header {
-    background: #0b0c0d;
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid #222;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  nav {
-    display: flex;
-    gap: 1.5rem;
-  }
-  nav a {
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-  }
-  main {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-  }
-  h1 {
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  h2 {
-    color: #72a4c5;
-    margin-top: 1.8rem;
-    font-weight: 600;
-  }
-  .phenomenon {
-    border-left: 4px solid #72a4c5;
-    padding-left: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  .phenomenon p {
-    margin: 0.3rem 0;
-  }
-  footer {
-    background: #0b0c0d;
-    text-align: center;
-    padding: 1rem;
-    font-size: 0.85rem;
-    border-top: 1px solid #222;
-    margin-top: 3rem;
-    color: #666;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Veil Directive - Veiled Phenomena</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212;
+      color: #ddd;
+      margin: 0;
+      padding: 1rem 2rem;
+    }
+    h1, h2 {
+      color: #5dade2;
+      margin-bottom: 0.5rem;
+    }
+    section {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .vp-entry {
+      background: #222;
+      margin: 0.8rem 0;
+      padding: 1rem;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 8px #244d7f88;
+      transition: background 0.3s ease;
+    }
+    .vp-entry:hover {
+      background: #2a2a2a;
+    }
+    .vp-info {
+      flex: 1;
+    }
+    button {
+      background: #5dade2;
+      border: none;
+      color: #121212;
+      padding: 0.5rem 1rem;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #7fb9f4;
+    }
+    nav {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    nav a {
+      text-decoration: none;
+      color: #5dade2;
+      margin: 0 1rem;
+      font-weight: 600;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <nav>
-    <a href="Veil_Directive.html">Home</a>
-    <a href="organization.html">Organization</a>
-    <a href="phenomena.html">Veiled Phenomena</a>
-    <a href="security.html">Security</a>
-    <a href="characters.html">Characters</a>
-    <a href="additional.html">Additional</a>
-  </nav>
-</header>
+<nav>
+  <a href="index.html">Veil Directive</a> |
+  <a href="phenomena.html">Veiled Phenomena</a> |
+  <a href="organization.html">Organization</a> |
+  <a href="security.html">Security Classifications</a> |
+  <a href="characters.html">Notable Characters</a>
+</nav>
 
-<main>
-  <h1>📁 Sample Veiled Phenomena</h1>
+<section>
+  <h1>Veiled Phenomena</h1>
+  <p>Click on any phenomenon below to learn more.</p>
 
-  <section class="phenomenon">
-    <h2>VP-008: The Smiling Fog</h2>
-    <p><strong>Type:</strong> Atmospheric anomaly</p>
-    <p><strong>Appearance:</strong> Thick fog that whispers the names of loved ones.</p>
-    <p><strong>Effect:</strong> Victims are lured into it and vanish, never found.</p>
-    <p><strong>Containment:</strong> A 10km no-entry zone established in northern Scotland. Guarded under the guise of military training grounds.</p>
-  </section>
+  <div class="vp-entry">
+    <div class="vp-info">
+      <strong>VP-008:</strong> The Smiling Fog<br />
+      <small>Type: Atmospheric anomaly</small>
+    </div>
+    <button onclick="location.href='vp-008.html'">View Details</button>
+  </div>
 
-  <section class="phenomenon">
-    <h2>VP-107: Mr. Forget</h2>
-    <p><strong>Type:</strong> Humanoid anomaly</p>
-    <p><strong>Description:</strong> Appears as a normal man. Cannot be remembered after direct contact.</p>
-    <p><strong>Effect:</strong> Anyone who talks to him forgets his existence after 30 seconds.</p>
-    <p><strong>Use:</strong> Employed by TVD for covert messaging. He voluntarily works for them, but no one remembers why.</p>
-  </section>
+  <div class="vp-entry">
+    <div class="vp-info">
+      <strong>VP-107:</strong> Mr. Forget<br />
+      <small>Type: Humanoid anomaly</small>
+    </div>
+    <button onclick="location.href='vp-107.html'">View Details</button>
+  </div>
 
-  <section class="phenomenon">
-    <h2>VP-382: The Wound That Dreams</h2>
-    <p><strong>Type:</strong> Spatial anomaly</p>
-    <p><strong>Location:</strong> Beneath an abandoned asylum in Italy.</p>
-    <p><strong>Effect:</strong> A hole that leads to a dream dimension. Entities within try to escape into our world.</p>
-    <p><strong>Containment:</strong> Surrounding structure sealed with reinforced dream-barriers developed by the Research Division.</p>
-  </section>
+  <div class="vp-entry">
+    <div class="vp-info">
+      <strong>VP-182:</strong> The Mirror Sisters<br />
+      <small>Type: Humanoid Anomalies (Two Separate Individuals)</small>
+    </div>
+    <button onclick="location.href='vp-182.html'">View Details</button>
+  </div>
 
-</main>
+  <div class="vp-entry">
+    <div class="vp-info">
+      <strong>VP-382:</strong> The Wound That Dreams<br />
+      <small>Type: Spatial anomaly</small>
+    </div>
+    <button onclick="location.href='vp-382.html'">View Details</button>
+  </div>
 
-<footer>
-  &copy; 2025 The Veil Directive. All rights reserved.
-</footer>
+</section>
 
 </body>
 </html>
