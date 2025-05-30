@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Media Team Application</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #1f1f1f;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+      text-align: center;
+      color: #ff9800;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: none;
+      background-color: #2c2c2c;
+      color: #e0e0e0;
+    }
+
+    input[type="submit"] {
+      background-color: #ff9800;
+      color: #121212;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #e68900;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>📸 Media Team Application</h2>
+    <form action="https://formspree.io/f/mjkrbyzw" method="POST">
+      
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="roblox">Roblox Username</label>
+      <input type="text" id="roblox" name="roblox" required>
+
+      <label for="experience">Experience in Photography or Media</label>
+      <textarea id="experience" name="experience" rows="4" placeholder="Tell us if you've taken pictures in Roblox or elsewhere" required></textarea>
+
+      <label for="portfolio">Portfolio (Links to past work, if any)</label>
+      <textarea id="portfolio" name="portfolio" rows="3" placeholder="Optional – You can leave this blank if you have no examples."></textarea>
+
+      <label for="why">Why do you want to join the Media Team?</label>
+      <textarea id="why" name="why" rows="4" required></textarea>
+
+      <input type="submit" value="Apply Now">
+    </form>
+  </div>
+
+</body>
+</html>
