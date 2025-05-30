@@ -13,7 +13,7 @@
     }
 
     .form-container {
-      max-width: 600px;
+      max-width: 650px;
       margin: auto;
       background-color: #1f1f1f;
       padding: 30px;
@@ -54,32 +54,106 @@
     input[type="submit"]:hover {
       background-color: #e68900;
     }
+
+    .success-message {
+      display: none;
+      color: #00e676;
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
 
   <div class="form-container">
     <h2>📸 Media Team Application</h2>
-    <form action="https://formspree.io/f/mjkrbyzw" method="POST">
-      
-      <label for="name">Full Name</label>
-      <input type="text" id="name" name="name" required>
+    <form id="mediaAppForm">
+      <label for="name">Full Name or Alias</label>
+      <input type="text" id="name" required>
 
-      <label for="roblox">Roblox Username</label>
-      <input type="text" id="roblox" name="roblox" required>
+      <label for="platform">Primary Platform(s)</label>
+      <select id="platform" required>
+        <option value="">-- Select --</option>
+        <option value="Roblox">Roblox</option>
+        <option value="Minecraft">Minecraft</option>
+        <option value="FiveM / GTA RP">FiveM / GTA RP</option>
+        <option value="Fortnite / UEFN">Fortnite / UEFN</option>
+        <option value="VRChat">VRChat</option>
+        <option value="Other">Other</option>
+      </select>
 
-      <label for="experience">Experience in Photography or Media</label>
-      <textarea id="experience" name="experience" rows="4" placeholder="Tell us if you've taken pictures in Roblox or elsewhere" required></textarea>
+      <label for="usernames">Username(s) / In-Game Names</label>
+      <input type="text" id="usernames" required>
 
-      <label for="portfolio">Portfolio (Links to past work, if any)</label>
-      <textarea id="portfolio" name="portfolio" rows="3" placeholder="Optional – You can leave this blank if you have no examples."></textarea>
+      <label for="experience">Media/Editing Experience</label>
+      <textarea id="experience" rows="3" required></textarea>
 
-      <label for="why">Why do you want to join the Media Team?</label>
-      <textarea id="why" name="why" rows="4" required></textarea>
+      <label for="tools">Tools You Use</label>
+      <input type="text" id="tools" placeholder="Photoshop, OBS, etc.">
+
+      <label for="portfolio">Portfolio / Links to Work</label>
+      <textarea id="portfolio" rows="3" required></textarea>
+
+      <label for="why">Why do you want to join?</label>
+      <textarea id="why" rows="3" required></textarea>
 
       <input type="submit" value="Apply Now">
+      <div class="success-message" id="successMessage">✅ Application Sent!</div>
     </form>
   </div>
+
+  <script>
+    const webhookURL = "https://discord.com/api/webhooks/1377994471983153284/Dh-E7x1hznRCfj9-uq8ygD7ZVAI8USnHB2AVIL9pwLKjw21M_sRX1ySgGsEhBigxYLej"; // Replace with your actual Discord webhook
+
+    document.getElementById("mediaAppForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const platform = document.getElementById("platform").value;
+      const usernames = document.getElementById("usernames").value;
+      const experience = document.getElementById("experience").value;
+      const tools = document.getElementById("tools").value;
+      const portfolio = document.getElementById("portfolio").value;
+      const why = document.getElementById("why").value;
+
+      const payload = {
+        username: "📸 Media App Bot",
+        embeds: [{
+          title: "📝 New Media Team Application",
+          color: 16753920,
+          fields: [
+            { name: "Name / Alias", value: name },
+            { name: "Platform", value: platform },
+            { name: "Username(s)", value: usernames },
+            { name: "Experience", value: experience },
+            { name: "Tools Used", value: tools || "N/A" },
+            { name: "Portfolio", value: portfolio },
+            { name: "Why Join?", value: why }
+          ],
+          timestamp: new Date().toISOString()
+        }]
+      };
+
+      try {
+        const response = await fetch(webhookURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          document.getElementById("successMessage").style.display = "block";
+          document.getElementById("mediaAppForm").reset();
+        } else {
+          alert("❌ Failed to send application. Check your webhook or try again later.");
+        }
+      } catch (err) {
+        alert("❌ Error submitting form. See console for details.");
+        console.error(err);
+      }
+    });
+  </script>
 
 </body>
 </html>
