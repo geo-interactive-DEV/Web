@@ -21,14 +21,16 @@
       padding: 10px;
       margin-bottom: 20px;
     }
-    .question {
+    .question, .contact-field {
       margin: 20px 0;
     }
     label {
       font-weight: bold;
     }
-    input[type="range"] {
+    input[type="range"], input[type="text"], input[type="email"] {
       width: 100%;
+      padding: 8px;
+      margin-top: 5px;
     }
     .range-labels {
       display: flex;
@@ -55,7 +57,17 @@
 
   <p><strong>Instructions:</strong> For each statement, rate how much you agree from 1 (Strongly Disagree) to 10 (Strongly Agree).</p>
 
-  <form action="https://formspree.io/f/your-form-id" method="POST">
+  <form action=https://formspree.io/f/xrbkbkrz" method="POST">
+    
+    <!-- Contact Information -->
+    <div class="contact-field">
+      <label for="name">Full Name:</label>
+      <input type="text" name="name" id="name" required />
+    </div>
+    <div class="contact-field">
+      <label for="email">Email Address:</label>
+      <input type="email" name="email" id="email" required />
+    </div>
 
     <!-- Questions -->
     <div id="questions"></div>
