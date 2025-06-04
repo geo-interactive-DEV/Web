@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>General Personality and Decision Test (GPAD)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .disclaimer {
+      background-color: #fff3cd;
+      border-left: 5px solid #ffc107;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    .question {
+      margin: 20px 0;
+    }
+    label {
+      font-weight: bold;
+    }
+    input[type="range"] {
+      width: 100%;
+    }
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9em;
+    }
+    .submit-button {
+      text-align: center;
+      margin-top: 40px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1.1em;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>General Personality and Decision Test (GPAD)</h1>
+
+  <div class="disclaimer">
+    ⚠️ <strong>Disclaimer:</strong> The General Personality and Decision Test (GPAD) is designed based on psychological and behavioral science principles to provide insight into general personality traits and decision-making styles. However, it is not a clinically validated diagnostic tool and should not be used as a substitute for professional psychological assessment or advice. Individual results may vary, and no test can fully capture the complexity of human personality or behavior with 100% accuracy.
+  </div>
+
+  <p><strong>Instructions:</strong> For each statement, rate how much you agree from 1 (Strongly Disagree) to 10 (Strongly Agree).</p>
+
+  <form action="https://formspree.io/f/your-form-id" method="POST">
+
+    <!-- Questions -->
+    <div id="questions"></div>
+
+    <!-- Submit -->
+    <div class="submit-button">
+      <button type="submit">Submit GPAD</button>
+    </div>
+  </form>
+
+  <script>
+    const questions = [
+      "I express my thoughts clearly.",
+      "I feel comfortable making decisions.",
+      "I prefer to spend time reflecting quietly.",
+      "I enjoy interacting with others socially.",
+      "I like to plan before I act.",
+      "I am open to new ideas and experiences.",
+      "I handle stress well.",
+      "I listen carefully to other people's opinions.",
+      "I take initiative when I see a problem.",
+      "I prefer routines and predictability.",
+      "I feel energized when I am around people.",
+      "I trust my instincts when making choices.",
+      "I enjoy learning new things regularly.",
+      "I find it easy to adapt to change.",
+      "I avoid conflicts when possible.",
+      "I am comfortable sharing my feelings.",
+      "I think carefully before making important decisions.",
+      "I prefer to work independently.",
+      "I am good at motivating myself.",
+      "I notice details that others often miss.",
+      "I like to take breaks when I feel overwhelmed.",
+      "I enjoy being challenged by difficult tasks.",
+      "I often consider how my actions affect others.",
+      "I feel confident in expressing my opinions.",
+      "I like to try new approaches to solve problems.",
+      "I prefer to stick with familiar people and places.",
+      "I find it easy to bounce back from setbacks.",
+      "I tend to seek advice before making decisions.",
+      "I stay focused even when distractions occur.",
+      "I am comfortable taking risks when necessary.",
+      "I enjoy helping others with their problems.",
+      "I am patient when things don’t go as planned.",
+      "I like to lead group activities.",
+      "I get easily frustrated with delays or interruptions.",
+      "I am good at managing my time.",
+      "I feel uneasy when I have to speak in public.",
+      "I prefer to focus on one task at a time.",
+      "I enjoy taking on new challenges.",
+      "I often reflect on my personal goals.",
+      "I am comfortable expressing disagreement respectfully.",
+      "I like to keep my living and work spaces organized.",
+      "I am quick to forgive others when they make mistakes.",
+      "I feel confident making decisions under pressure.",
+      "I prefer to follow instructions rather than create my own methods.",
+      "I often find myself daydreaming or thinking deeply.",
+      "I enjoy being the center of attention.",
+      "I am cautious about sharing personal information.",
+      "I take responsibility for my actions.",
+      "I enjoy working with my hands to build or create things.",
+      "I like to stay informed about current events."
+    ];
+
+    const container = document.getElementById("questions");
+    questions.forEach((q, index) => {
+      const number = index + 1;
+      container.innerHTML += `
+        <div class="question">
+          <label for="q${number}">${number}. ${q}</label>
+          <input type="range" name="q${number}" id="q${number}" min="1" max="10" required />
+          <div class="range-labels">
+            <span>1</span>
+            <span>5</span>
+            <span>10</span>
+          </div>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>
