@@ -109,46 +109,9 @@
     document.getElementById("mediaAppForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const name = document.getElementById("name").value;
-      const platform = document.getElementById("platform").value;
-      const usernames = document.getElementById("usernames").value;
-      const experience = document.getElementById("experience").value;
-      const tools = document.getElementById("tools").value;
-      const portfolio = document.getElementById("portfolio").value;
-      const why = document.getElementById("why").value;
-
-      const payload = {
-        username: "📸 Media App Bot",
-        embeds: [{
-          title: "📝 New Media Team Application",
-          color: 16753920,
-          fields: [
-            { name: "Name / Alias", value: name },
-            { name: "Platform", value: platform },
-            { name: "Username(s)", value: usernames },
-            { name: "Experience", value: experience },
-            { name: "Tools Used", value: tools || "N/A" },
-            { name: "Portfolio", value: portfolio },
-            { name: "Why Join?", value: why }
-          ],
-          timestamp: new Date().toISOString()
-        }]
-      };
-
-      try {
-        const response = await fetch(webhookURL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        if (response.ok) {
-          document.getElementById("successMessage").style.display = "block";
-          document.getElementById("mediaAppForm").reset();
-        } else {
-          alert("❌ Failed to send application. Check your webhook or try again later.");
-        }
-      } catch (err) {
+  
+      }
+        catch (err) {
         alert("❌ Error submitting form. See console for details.");
         console.error(err);
       }
