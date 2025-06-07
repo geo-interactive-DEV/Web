@@ -112,6 +112,9 @@ nav .menu-toggle span {
   border-radius: 2px;
   transition: all 0.3s ease;
 }
+main.container {
+  padding-top: 70px; /* adjust to nav height + some spacing */
+}
 
 /* Main Content */
 main {
