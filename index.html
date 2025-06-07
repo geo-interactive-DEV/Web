@@ -1,67 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google Tag Manager (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RMW5TDMMY6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RMW5TDMMY6');
+  </script>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RMW5TDMMY6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-RMW5TDMMY6');
-</script>
-  
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Geo Interactive</title>
+
+  <!-- Link your CSS -->
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" />
 </head>
 <body>
-  <iframe src="https://geointeractive.betteruptime.com/badge?theme=dark" width="250" height="30" frameborder="0" scrolling="no" style="color-scheme: normal"></iframe>
+
+  <!-- Deploy status badge -->
+  <aside class="deploy-badge" aria-label="Uptime status">
+    <iframe
+      src="https://geointeractive.betteruptime.com/badge?theme=dark"
+      width="250" height="30" frameborder="0" scrolling="no"
+      style="color-scheme: dark"
+      title="Geo Interactive uptime status"
+      aria-hidden="true"></iframe>
+  </aside>
+
+  <!-- Header -->
   <header>
-    <h1>Geo Interactive</h1>
-    <p>Crafting immersive worlds through games and stories.</p>
+    <div class="container">
+      <h1 class="site-title">Geo Interactive</h1>
+      <p class="site-tagline">Crafting immersive worlds through games and stories.</p>
+    </div>
   </header>
 
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="projects.html">projects</a></li>
-      <li><a href="pax56.html">PAX-56</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="join.html">join us</a></li>
-      <li><a href="terms.html">Terms of service</a></li>
-    </ul>
+  <!-- Navigation -->
+  <nav role="navigation" aria-label="Primary navigation">
+    <div class="container nav-container">
+      <a href="index.html" class="logo" aria-label="Geo Interactive homepage">Geo Interactive</a>
+
+      <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul id="primary-menu" class="nav-menu" hidden>
+        <li><a href="index.html" tabindex="0">Home</a></li>
+        <li><a href="projects.html" tabindex="0">Projects</a></li>
+        <li><a href="pax56.html" tabindex="0">PAX-56</a></li>
+        <li><a href="about.html" tabindex="0">About</a></li>
+        <li><a href="contact.html" tabindex="0">Contact</a></li>
+        <li><a href="join.html" tabindex="0">Join Us</a></li>
+        <li><a href="terms.html" tabindex="0">Terms of Service</a></li>
+      </ul>
+    </div>
   </nav>
 
-  <main>
-    <h2>Welcome to Geo Interactive</h2>
-    <p>
-      We are an independent game studio dedicated to building rich experiences for players of all kinds. From cozy town-life simulations to dark sci-fi thrillers, we craft unique stories and interactive adventures that stay with you.
-    </p>
+  <!-- Main content -->
+  <main class="container" tabindex="-1">
+    <section aria-labelledby="welcome-title" class="intro-section">
+      <h2 id="welcome-title">Welcome to Geo Interactive</h2>
+      <p>
+        We are an independent game studio dedicated to building rich experiences for players of all kinds.
+        From cozy town-life simulations to dark sci-fi thrillers, we craft unique stories and interactive adventures that stay with you.
+      </p>
+    </section>
 
-    <h2>Our Vision</h2>
-    <ul>
-      <li>🎮 Create unforgettable, story-rich games</li>
-      <li>🌍 Support inclusive and diverse storytelling</li>
-      <li>🛠️ Empower creative developers and artists</li>
-    </ul>
+    <section aria-labelledby="vision-title" class="vision-section">
+      <h2 id="vision-title">Our Vision</h2>
+      <ul>
+        <li>🎮 Create unforgettable, story-rich games</li>
+        <li>🌍 Support inclusive and diverse storytelling</li>
+        <li>🛠️ Empower creative developers and artists</li>
+      </ul>
+    </section>
 
-    <h2>Featured Title: PAX-56</h2>
-    <p>
-      <strong>PAX-56</strong> is a sci-fi novel and interactive experience about a parasitic lifeform threatening to consume all life on a remote space station. It's a story of survival, betrayal, and hope. Learn more on the <a href="pax56.html">PAX-56 page</a>.
-    </p>
+    <section aria-labelledby="featured-title" class="featured-section">
+      <h2 id="featured-title">Featured Title: PAX-56</h2>
+      <p>
+        <strong>PAX-56</strong> is a sci-fi novel and interactive experience about a parasitic lifeform threatening to consume all life on a remote space station.
+        It's a story of survival, betrayal, and hope. Learn more on the <a href="pax56.html">PAX-56 page</a>.
+      </p>
+    </section>
   </main>
-  
-  
 
-<footer>
-    <p>&copy; 2025 Geo Interactive. All rights reserved.</p>
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <p>&copy; 2025 Geo Interactive. All rights reserved.</p>
+      <p>Geo Interactive is a non-commercial, community-led project. We are not a registered business or company.</p>
+    </div>
   </footer>
-<footer>
-    <p>Geo Interactive is a non-commercial, community-led project. We are not a registered business or company.</p>
-  </footer>
+
+  <!-- JavaScript for menu toggle -->
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const menu = document.getElementById('primary-menu');
+
+    menuToggle.addEventListener('click', () => {
+      const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', String(!isExpanded));
+      if (!isExpanded) {
+        menu.removeAttribute('hidden');
+      } else {
+        menu.setAttribute('hidden', '');
+      }
+    });
+
+    // Close menu when focus moves out for better accessibility
+    menu.addEventListener('focusout', (e) => {
+      if (!menu.contains(e.relatedTarget) && !menuToggle.contains(e.relatedTarget)) {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('hidden', '');
+      }
+    });
+  </script>
 </body>
 </html>
