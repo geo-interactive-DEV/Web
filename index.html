@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google Tag Manager (gtag.js) -->
+  <!-- Google Tag Manager -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RMW5TDMMY6"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -14,15 +14,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Geo Interactive</title>
 
-  <!-- Link your CSS -->
   <link rel="stylesheet" href="styles.css" />
-
-  <!-- Favicon -->
   <link rel="icon" href="/favicon.ico" />
 </head>
 <body>
 
-  <!-- Deploy status badge -->
+  <!-- Uptime badge -->
   <aside class="deploy-badge" aria-label="Uptime status">
     <iframe
       src="https://geointeractive.betteruptime.com/badge?theme=dark"
@@ -114,7 +111,6 @@
       }
     });
 
-    // Close menu when focus moves out for better accessibility
     menu.addEventListener('focusout', (e) => {
       if (!menu.contains(e.relatedTarget) && !menuToggle.contains(e.relatedTarget)) {
         menuToggle.setAttribute('aria-expanded', 'false');
@@ -122,5 +118,6 @@
       }
     });
   </script>
+
 </body>
 </html>
