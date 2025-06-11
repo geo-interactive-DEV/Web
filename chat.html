@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat - WhisperWall</title>
+  <style>
+    body {
+      background: #121212;
+      color: white;
+      font-family: sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    header {
+      background: #1f1f1f;
+      padding: 15px 20px;
+      font-size: 1.5em;
+      color: #ff9800;
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 2px solid #ff9800;
+    }
+    #chatBox {
+      flex-grow: 1;
+      padding: 20px;
+      overflow-y: auto;
+      border-bottom: 2px solid #ff9800;
+      white-space: pre-wrap;
+    }
+    #inputForm {
+      display: flex;
+      padding: 10px 20px;
+      background: #1f1f1f;
+    }
+    #messageInput {
+      flex-grow: 1;
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+      background: #121212;
+      color: white;
+    }
+    #sendBtn {
+      background: #ff9800;
+      border: none;
+      color: black;
+      padding: 10px 20px;
+      margin-left: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    #sendBtn:hover {
+      background: #e68900;
+    }
+    .message {
+      margin-bottom: 10px;
+    }
+    .username {
+      font-weight: bold;
+      color: #ff9800;
+      margin-right: 6px;
+    }
+    .timestamp {
+      font-size: 0.75em;
+      color: #888;
+      margin-left: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>WhisperWall Chat</header>
+  <div id="chatBox"></div>
+  <form id="inputForm">
+    <input id="messageInput" type="text" placeholder="Type your message..." autocomplete="off" />
+    <button id="sendBtn" type="submit">Send</button>
+  </form>
+
+  <script>
+    const chatBox = document.getElementById('chatBox');
+    const inputForm = document.getElementById('inputForm');
+    const messageInput = document.getElementById('messageInput');
+
+    // Replace this with your actual backend URL
+    const BASE_URL = "https://10dc23a7-3ebc-4a0e-880a-3a6c24d020d7-00-11tet7y8pcgt4.worf.replit.dev";
+
+    // Retrieve JWT token stored after login
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert("You must be logged in to access the chat.");
+      window.location.href = "login.html"; // Redirect to login page
+    }
+
+    // Helper to format timestamp nicely
+    function formatTimestamp(ts) {
+      const date = new Date(ts);
+      return date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+
+    // Add a chat message element to the chat box
+    function addMessage({ username, message, timestamp }) {
+      const msgEl = document.createElement('div');
+      msgEl.classList.add('message');
+
+      const userSpan = document.createElement('span');
+      userSpan.classList.add('username');
+      userSpan.textContent = username;
+
+      const timeSpan = document.createElement('span');
+      timeSpan.classList.add('timestamp');
+      timeSpan.textContent = formatTimestamp(timestamp);
+
+      const textSpan = document.createElement('span');
+      textSpan.textContent = ": " + message;
+
+      msgEl.appendChild(userSpan);
+      msgEl.appendChild(timeSpan);
+      msgEl.appendChild(textSpan);
+
+      chatBox.appendChild(msgEl);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Load recent chat messages from backend
+    async function loadMessages() {
+      try {
+        const res = await fetch(`${BASE_URL}/chat/messages`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.message || "Failed to load messages");
+
+        chatBox.innerHTML = ""; // clear current
+        data.messages.forEach(addMessage);
+      } catch (err) {
+        alert("Error loading chat messages: " + err.message);
+      }
+    }
+
+    inputForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = messageInput.value.trim();
+      if (!msg) return;
+
+      try {
+        const res = await fetch(`${BASE_URL}/chat/messages`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ message: msg })
+        });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.message || "Failed to send message");
+
+        addMessage(data.data); // Show message immediately
+        messageInput.value = '';
+      } catch (err) {
+        alert("Error sending message: " + err.message);
+      }
+    });
+
+    // Load messages on page load
+    loadMessages();
+
+    // Optional: poll for new messages every 5 seconds
+    setInterval(loadMessages, 5000);
+  </script>
+</body>
+</html>

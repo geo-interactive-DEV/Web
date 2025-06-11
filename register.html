@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register - WhisperWall</title>
+  <style>
+    body {
+      background: #121212;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #1f1f1f;
+      padding: 40px 50px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #ff9800aa;
+      width: 350px;
+      text-align: center;
+    }
+    h1 {
+      color: #ff9800;
+      margin-bottom: 30px;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0 20px 0;
+      border: 2px solid #333;
+      border-radius: 8px;
+      background: #121212;
+      color: white;
+      font-size: 1em;
+      transition: border-color 0.3s;
+    }
+    input[type="text"]:focus, input[type="password"]:focus {
+      outline: none;
+      border-color: #ff9800;
+    }
+    button {
+      background: #ff9800;
+      color: black;
+      border: none;
+      padding: 14px 0;
+      font-size: 1.1em;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #e68900;
+    }
+    .footer-text {
+      margin-top: 20px;
+      font-size: 0.9em;
+    }
+    .footer-text a {
+      color: #ff9800;
+      text-decoration: none;
+    }
+    .footer-text a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Create Account</h1>
+    <form id="registerForm">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Register</button>
+    </form>
+    <div class="footer-text">
+      Already have an account? <a href="login.html">Log in</a>
+    </div>
+  </div>
+
+  <script>
+    const BASE_URL = "https://10dc23a7-3ebc-4a0e-880a-3a6c24d020d7-00-11tet7y8pcgt4.worf.replit.dev";
+
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      try {
+        const response = await fetch(`${BASE_URL}/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          alert("Registered successfully! Redirecting to login...");
+          window.location.href = "login.html";
+        } else {
+          alert("Error: " + data.message);
+        }
+      } catch (err) {
+        alert("Server error, please try again later.");
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>

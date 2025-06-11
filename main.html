@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Main Menu - WhisperWall</title>
+  <style>
+    body {
+      background: #121212;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 50px;
+      margin: 0;
+      min-height: 100vh;
+      position: relative;
+    }
+    h1 {
+      color: #ff9800;
+      margin-bottom: 10px;
+    }
+    #welcomeUser {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 1.2em;
+      color: #ffa726;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+    .app-button {
+      background: #1f1f1f;
+      border: 2px solid #ff9800;
+      color: white;
+      padding: 20px;
+      margin: 20px;
+      font-size: 1.2em;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 250px;
+      text-align: center;
+      transition: background 0.2s;
+      user-select: none;
+    }
+    .app-button:hover {
+      background: #ff9800;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to WhisperWall</h1>
+  <div id="welcomeUser" title="Go to your profile"></div>
+
+  <div class="app-button" onclick="location.href='chat.html'">Chat</div>
+  <div class="app-button" onclick="location.href='anonymous.html'">Anonymous Chat</div>
+  <div class="app-button" onclick="location.href='geo.html'">Geo Interactive</div>
+
+  <script>
+    async function fetchProfile() {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      try {
+        const res = await fetch("https://10dc23a7-3ebc-4a0e-880a-3a6c24d020d7-00-11tet7y8pcgt4.worf.replit.dev/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        if (data.success) {
+          const welcomeEl = document.getElementById("welcomeUser");
+          welcomeEl.textContent = data.username;
+          welcomeEl.onclick = () => {
+            window.location.href = `${data.username}/profile`;
+          };
+        } else {
+          throw new Error(data.message || "Failed to fetch profile");
+        }
+      } catch (e) {
+        console.error(e);
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        window.location.href = "login.html";
+      }
+    }
+    fetchProfile();
+  </script>
+</body>
+</html>
